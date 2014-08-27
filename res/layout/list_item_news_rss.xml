@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+</LinearLayout>
+-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp" >
+
+    <ImageView
+        android:id="@+id/postThumb"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginRight="5dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="@+string/empty_text"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/postTitleLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/postThumb"
+        android:layout_toRightOf="@id/postThumb"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textIsSelectable="false"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/postPubDateLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/postThumb"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@id/postThumb"
+        android:maxLines="1"
+        android:textSize="12sp" />
+
+</RelativeLayout>
