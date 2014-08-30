@@ -6,11 +6,11 @@ import ir.occc.android.model.RssItem;
 import java.util.List;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +25,7 @@ public class NewsFragment extends Fragment implements OnItemClickListener {
 	private ProgressBar progressBar;
 	private ListView listView;
 	private View view;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,7 +35,6 @@ public class NewsFragment extends Fragment implements OnItemClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
 		if (view == null) {
 			view = inflater.inflate(R.layout.fragment_news, container, false);
 			progressBar = (ProgressBar) view.findViewById(R.id.progressBar1);
@@ -84,8 +83,22 @@ public class NewsFragment extends Fragment implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		RssAdapter adapter = (RssAdapter) parent.getAdapter();
 		RssItem item = (RssItem) adapter.getItem(position);
-		Uri uri = Uri.parse(item.getLink());
+		
+		Bundle bundle = new Bundle();
+		bundle.putString("title", item.getTitle());
+		bundle.putString("pubDate", item.getDate());
+		bundle.putString("description", item.getDescription());
+		
+		NewsContentFragment newsContentFragment = new NewsContentFragment();
+		newsContentFragment.setArguments(bundle);
+		
+		FragmentTransaction transaction = this.getFragmentManager().beginTransaction();
+		transaction.replace(R.id.frame_container, newsContentFragment);
+		transaction.addToBackStack(null);
+		transaction.commit();
+		
+		/*Uri uri = Uri.parse(item.getLink());
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		startActivity(intent);
+		startActivity(intent);*/
 	}
 }

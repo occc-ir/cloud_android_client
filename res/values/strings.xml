@@ -4,6 +4,8 @@
     <string name="app_name">oCCc</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="empty_text">Empty text.</string>
+    <string name="RSS_Link">http://172.18.4.163:8045/news-archive.xml</string>
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">

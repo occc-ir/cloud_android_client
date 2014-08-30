@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -142,8 +143,7 @@ public class MainActivity extends FragmentActivity {
 
 		if (fragment != null) {
 			final FragmentManager fragmentManager = getSupportFragmentManager();
-			fragmentManager.beginTransaction()
-			.replace(R.id.frame_container, fragment).commit();
+			fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
 
 			// update selected item and title, then close the drawer
 			mDrawerList.setItemChecked(position, true);
@@ -171,6 +171,14 @@ public class MainActivity extends FragmentActivity {
 		// Handle action bar actions click
 		switch (item.getItemId()) {
 		case R.id.action_settings:
+			Log.d("oCCc", "Setting selected!!!");
+			return true;
+		case R.id.refresh:
+			Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
+			if (fragment instanceof NewsContentFragment) {
+				NewsContentFragment newsContentFragment = (NewsContentFragment)fragment;
+				newsContentFragment.refresh();
+			}
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -227,54 +235,16 @@ public class MainActivity extends FragmentActivity {
 
 	}
 
-	/*extends ActionBarActivity {
-
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-
-		if (savedInstanceState == null) {
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.frame_container, new PlaceholderFragment()).commit();
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+			if (this.getSupportFragmentManager().getBackStackEntryCount() != 0) {
+				this.getSupportFragmentManager().popBackStack();
+				//this.getSupportFragmentManager().popBackStackImmediate();
+				return true;
+			}
 		}
+
+		return super.onKeyDown(keyCode, event);
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	 *//**
-	 * A placeholder fragment containing a simple view.
-	 *//*
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,
-					false);
-			return rootView;
-		}
-	}*/
-
 }

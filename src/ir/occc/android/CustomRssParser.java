@@ -42,22 +42,25 @@ public class CustomRssParser {
 				continue;
 			}
 			String name = parser.getName();
-			if (name.equals("title")) {
+			if (name.equalsIgnoreCase("title")) {
 				title = readTitle(parser);
-			} else if (name.equals("link")) {
+			} else if (name.equalsIgnoreCase("link")) {
 				link = readLink(parser);
-			} else if (name.equals("description")) {
+			} else if (name.equalsIgnoreCase("description")) {
 				description = readDescription(parser);
-			} else if (name.equals("pubdate")) {
+			} else if (name.equalsIgnoreCase("pubdate")) {
 				pubDate = readDate(parser);
-			} else if (name.equals("thumburl")) {
+			} else if (name.equalsIgnoreCase("thumburl")) {
 				thumbUrl = readThumbUrl(parser);
 			}
-			if (title != null && link != null /*&& date != null && thumbUrl != null*/) {
+			if (title != null && link != null && pubDate != null /*&& thumbUrl != null*/) {
 				RssItem item = new RssItem(title, link, description, pubDate, thumbUrl);
 				items.add(item);
 				title = null;
 				link = null;
+				description = null;
+				pubDate = null;
+				thumbUrl = null;
 			}
 		}
 		return items;
@@ -76,21 +79,21 @@ public class CustomRssParser {
 		parser.require(XmlPullParser.END_TAG, ns, "title");
 		return title;
 	}
-	
+
 	private String readDescription(XmlPullParser parser) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, ns, "description");
 		String description = readText(parser);
 		parser.require(XmlPullParser.END_TAG, ns, "description");
 		return description;
 	}
-	
+
 	private String readDate(XmlPullParser parser) throws XmlPullParserException, IOException {
-		parser.require(XmlPullParser.START_TAG, ns, "date");
+		parser.require(XmlPullParser.START_TAG, ns, "pubDate");
 		String date = readText(parser);
-		parser.require(XmlPullParser.END_TAG, ns, "date");
+		parser.require(XmlPullParser.END_TAG, ns, "pubDate");
 		return date;
 	}
-	
+
 	private String readThumbUrl(XmlPullParser parser) throws XmlPullParserException, IOException {
 		parser.require(XmlPullParser.START_TAG, ns, "thumburl");
 		String thumbUrl = readText(parser);

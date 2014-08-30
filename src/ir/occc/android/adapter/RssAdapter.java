@@ -56,18 +56,6 @@ public class RssAdapter extends BaseAdapter {
 			holder.itemThumb.setImageResource(R.drawable.ic_launcher);
 		}
 
-		/*View rowView;
-		rowView = convertView;
-		ImageView thumbImageView = (ImageView) rowView.findViewById(R.id.postThumb);
-		if (items.get(position).getThumbUrl() == null) {
-			thumbImageView.setImageResource(R.drawable.ic_launcher);
-		}
-		
-		TextView postTitleView = (TextView) rowView.findViewById(R.id.postTitleLabel);
-		postTitleView.setText(items.get(position).getTitle());
-		TextView postDateView = (TextView) rowView.findViewById(R.id.postDateLabel);
-		postDateView.setText(items.get(position).getDate());*/
-
 		return convertView;
 	}
 

@@ -19,7 +19,7 @@ import android.util.Log;
 
 public class RssService extends IntentService {
 
-	private static final String RSS_LINK = "http://www.zaeimportal.com/_layouts/listfeed.aspx?List=bc9ce8be-8db6-4e10-bc05-fc0f08ff959e";
+//	private static final String RSS_LINK =;
 	public static final String ITEMS = "items";
 	public static final String RECEIVER = "receiver";
 
@@ -33,7 +33,7 @@ public class RssService extends IntentService {
 		List<RssItem> rssItems = null;
 		try {
             CustomRssParser parser = new CustomRssParser();
-            rssItems = parser.parse(getInputStream(RSS_LINK));
+            rssItems = parser.parse(getInputStream(getResources().getString(R.string.RSS_Link)));
         } catch (XmlPullParserException e) {
             Log.w(e.getMessage(), e);
         } catch (IOException e) {
