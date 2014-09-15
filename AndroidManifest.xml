@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <service android:name="RssService" android:icon="@drawable/ic_launcher" android:enabled="true"></service>
+        <service android:name="WikiService" android:enabled="true" android:icon="@drawable/ic_launcher"></service>
     </application>
 
 </manifest>

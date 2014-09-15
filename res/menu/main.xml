@@ -4,8 +4,9 @@
     tools:context="ir.occc.android.MainActivity" >
 
     <item
-        android:id="@+id/refresh"
+        android:id="@+id/action_refresh"
         android:title="@string/refresh"
+        android:icon="@drawable/ic_action_refresh"
         android:showAsAction="ifRoom"/>    
     <item
         android:id="@+id/action_settings"

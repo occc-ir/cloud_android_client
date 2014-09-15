@@ -5,6 +5,8 @@ import ir.occc.android.model.NavDrawerItem;
 
 import java.util.ArrayList;
 
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -27,7 +29,7 @@ public class MainActivity extends FragmentActivity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
-
+	
 	// nav drawer title
 	private CharSequence mDrawerTitle;
 
@@ -40,11 +42,15 @@ public class MainActivity extends FragmentActivity {
 
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
+	
+	private SharedPreferences sharedPreferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		sharedPreferences = getSharedPreferences("oCCc", MODE_PRIVATE);
 
 		mTitle = mDrawerTitle = getTitle();
 
@@ -62,10 +68,10 @@ public class MainActivity extends FragmentActivity {
 		navDrawerItems = new ArrayList<NavDrawerItem>();
 
 		// adding nav drawer items to array
-		// Home
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
-		// Find People
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1), true, "14"));
+		// News
+		prepareNewsItemMenu();
+		// Wiki
+		prepareWikiItemMenu();
 		// Photos
 		/*navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
 		// Communities, Will add a counter here
@@ -106,11 +112,54 @@ public class MainActivity extends FragmentActivity {
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-
+		
 		if (savedInstanceState == null) {
 			// on first time display view for first nav item
 			displayView(0);
 		}
+	}
+
+	private void prepareNewsItemMenu() {
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
+	}
+
+	private void prepareWikiItemMenu() {		
+		Boolean isVisible = false;
+		try {
+			isVisible = sharedPreferences.getBoolean("wikiCounterVisible", true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		int unreadArticle = 0;
+		try {
+			unreadArticle = sharedPreferences.getInt("wikiCounterNumber", 0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		int newArticleCounter = getNewWikiArticleCount();
+		
+		if (unreadArticle > 0) {
+			unreadArticle += newArticleCounter;
+			isVisible = true;
+		} 
+		else {
+			if (newArticleCounter > 0) {
+				unreadArticle = newArticleCounter;
+				isVisible = true;
+			}
+			else {
+				isVisible = false;
+			}
+		}
+		
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1), isVisible, String.valueOf(unreadArticle)));
+	}
+	
+	private int getNewWikiArticleCount() {
+		// TODO get new article from wiki
+		return 14;
 	}
 
 	private void displayView(int position) {
@@ -122,6 +171,15 @@ public class MainActivity extends FragmentActivity {
 			break;
 		case 1:
 			fragment = new WikiFragment();
+			
+			SharedPreferences sharedPreferences = getSharedPreferences("oCCc", MODE_PRIVATE);
+			Editor editor = sharedPreferences.edit();
+			editor.putBoolean("wikiCounterVisible", false);
+			editor.putInt("wikiCounterNumber", 0);
+			editor.commit();
+			
+			navDrawerItems.get(1).setCounterVisibility(false);
+			navDrawerItems.get(1).setCount("0");
 			//            fragment = new FindPeopleFragment();
 			break;
 		case 2:
@@ -173,11 +231,17 @@ public class MainActivity extends FragmentActivity {
 		case R.id.action_settings:
 			Log.d("oCCc", "Setting selected!!!");
 			return true;
-		case R.id.refresh:
+		case R.id.action_refresh:
 			Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
-			if (fragment instanceof NewsContentFragment) {
+			if (fragment instanceof NewsFragment) {
+				NewsFragment newsFragment = (NewsFragment)fragment;
+				newsFragment.refresh();
+			} else if (fragment instanceof NewsContentFragment) {
 				NewsContentFragment newsContentFragment = (NewsContentFragment)fragment;
 				newsContentFragment.refresh();
+			} else if (fragment instanceof WikiFragment) {
+				WikiFragment wikiFragment = (WikiFragment)fragment;
+				wikiFragment.refresh();
 			}
 			return true;
 		default:
@@ -193,6 +257,7 @@ public class MainActivity extends FragmentActivity {
 		// if nav drawer is opened, hide the action items
 		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
 		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+		menu.findItem(R.id.action_refresh).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
 

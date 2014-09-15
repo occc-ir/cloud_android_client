@@ -22,14 +22,17 @@ public class RssService extends IntentService {
 //	private static final String RSS_LINK =;
 	public static final String ITEMS = "items";
 	public static final String RECEIVER = "receiver";
-
+	
 	public RssService() {
-		super("RssService");
+		super("oCCc Rss Service");
 	}
-
+	
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		Log.d("oCCc", "Service started");
+		getRss(intent);
+	}
+
+	private void getRss(Intent intent) {
 		List<RssItem> rssItems = null;
 		try {
             CustomRssParser parser = new CustomRssParser();

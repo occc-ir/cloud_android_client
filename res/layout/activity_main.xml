@@ -20,5 +20,16 @@
         android:divider="@color/list_divider"
         android:dividerHeight="1dp"
         android:listSelector="@drawable/list_selector" />
+    
+    
+    <!-- Listview to display slider menu -->
+
+    <ListView
+        android:id="@+id/list_slidermenu2"
+        android:layout_width="350dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="@color/list_background"
+        android:dividerHeight="1dp" />
 
 </android.support.v4.widget.DrawerLayout>
