@@ -8,6 +8,8 @@ import java.util.List;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,6 +57,10 @@ public class RssAdapter extends BaseAdapter {
 		if (items.get(position).getThumbUrl() == null) {
 			holder.itemThumb.setImageResource(R.drawable.ic_launcher);
 		}
+		
+		Animation anim = AnimationUtils.loadAnimation(parent.getContext(), R.anim.push_up_in);
+		convertView.startAnimation(anim);
+		anim = null;
 
 		return convertView;
 	}

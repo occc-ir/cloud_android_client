@@ -25,7 +25,8 @@ public class CustomRssParser {
 			parser.nextTag();
 			return readFeed(parser);
 		} finally {
-			inputStream.close();
+			if (inputStream != null)
+				inputStream.close();
 		}
 	}
 

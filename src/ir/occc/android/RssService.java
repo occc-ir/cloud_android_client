@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -36,7 +37,8 @@ public class RssService extends IntentService {
 		List<RssItem> rssItems = null;
 		try {
             CustomRssParser parser = new CustomRssParser();
-            rssItems = parser.parse(getInputStream(getResources().getString(R.string.RSS_Link)));
+            InputStream urlIs = getInputStream(getString(R.string.rss_link_test));
+            rssItems = urlIs == null ? new ArrayList<RssItem>() : parser.parse(urlIs);
         } catch (XmlPullParserException e) {
             Log.w(e.getMessage(), e);
         } catch (IOException e) {
@@ -53,6 +55,7 @@ public class RssService extends IntentService {
 		try {
 			URL url = new URL(link);
 			URLConnection urlCon = url.openConnection();
+			urlCon.setReadTimeout(20000);
 			is = urlCon.getInputStream();
 			//return is;
 		} catch (IOException e) {

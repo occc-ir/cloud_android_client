@@ -23,11 +23,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 public class MainActivity extends FragmentActivity {
 
 	private DrawerLayout mDrawerLayout;
-	private ListView mDrawerList;
+	private ListView mDrawerListLeft;
+	private ListView mDrawerListRight;
+	private RelativeLayout mDrawerRight;
 	private ActionBarDrawerToggle mDrawerToggle;
 	
 	// nav drawer title
@@ -62,8 +65,13 @@ public class MainActivity extends FragmentActivity {
 				.obtainTypedArray(R.array.nav_drawer_icons);
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
-		mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
+		mDrawerListLeft = (ListView) findViewById(R.id.list_slidermenuleft);
+		mDrawerListLeft.setOnItemClickListener(new LeftSlideMenuClickListener());
+		
+		mDrawerRight = (RelativeLayout) findViewById(R.id.slidermenuright);
+		
+		mDrawerListRight = (ListView) findViewById(R.id.list_slidermenuright);
+		mDrawerListRight.setOnItemClickListener(new RightSlideMenuClickListener());
 
 		navDrawerItems = new ArrayList<NavDrawerItem>();
 
@@ -86,9 +94,9 @@ public class MainActivity extends FragmentActivity {
 		navMenuIcons.recycle();
 
 		// setting the nav drawer list adapter
-		adapter = new NavDrawerListAdapter(getApplicationContext(),
-				navDrawerItems);
-		mDrawerList.setAdapter(adapter);
+		adapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
+		mDrawerListLeft.setAdapter(adapter);
+		mDrawerListRight.setAdapter(adapter);
 
 		// enabling action bar app icon and behaving it as toggle button
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -204,10 +212,10 @@ public class MainActivity extends FragmentActivity {
 			fragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit();
 
 			// update selected item and title, then close the drawer
-			mDrawerList.setItemChecked(position, true);
-			mDrawerList.setSelection(position);
+			mDrawerListLeft.setItemChecked(position, true);
+			mDrawerListLeft.setSelection(position);
 			setTitle(navMenuTitles[position]);
-			mDrawerLayout.closeDrawer(mDrawerList);
+			mDrawerLayout.closeDrawer(mDrawerListLeft);
 		} else {
 			// error in creating fragment
 			Log.e("MainActivity", "Error in creating fragment");
@@ -255,7 +263,8 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// if nav drawer is opened, hide the action items
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerListLeft);
+		drawerOpen =  mDrawerLayout.isDrawerOpen(mDrawerRight);
 		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
 		menu.findItem(R.id.action_refresh).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
@@ -289,7 +298,18 @@ public class MainActivity extends FragmentActivity {
 	/**
 	 * Slide menu item click listener
 	 * */
-	public class SlideMenuClickListener implements OnItemClickListener {
+	public class LeftSlideMenuClickListener implements OnItemClickListener {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			// display view for selected nav drawer item
+			displayView(position);
+		}
+
+	}
+	
+	public class RightSlideMenuClickListener implements OnItemClickListener {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,

@@ -37,7 +37,7 @@ public class WikiService extends IntentService {
 		}
 
 		if (user == null) {
-			user = new User("root", "123456", "http://172.18.23.231/mediawiki/api.php");
+			user = new User("", "", getString(R.string.wiki_api_url_test));
 			user.login();
 		}
 		readByQuery(intent);

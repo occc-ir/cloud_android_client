@@ -7,20 +7,23 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class NewsFragment extends BaseV4Fragment implements OnItemClickListener {
 
-	private ProgressBar progressBar;
+	private View rootView;
 	private ListView listView;
-	private View view;
+	private ProgressBar progressBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,10 +34,10 @@ public class NewsFragment extends BaseV4Fragment implements OnItemClickListener 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		if (view == null) {
-			view = inflater.inflate(R.layout.fragment_news, container, false);
-			progressBar = (ProgressBar) view.findViewById(R.id.progressBar1);
-			listView = (ListView) view.findViewById(R.id.listView);
+		if (rootView == null) {
+			rootView = inflater.inflate(R.layout.fragment_news, container, false);
+			progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar1);
+			listView = (ListView) rootView.findViewById(R.id.listView);
 			listView.setOnItemClickListener(this);
 			startService();
 		}
@@ -42,11 +45,11 @@ public class NewsFragment extends BaseV4Fragment implements OnItemClickListener 
 			// If we are returning from a configuration change:
 			// "view" is still attached to the previous view hierarchy
 			// so we need to remove it and re-attach it to the current one
-			ViewGroup parent = (ViewGroup) view.getParent();
-			parent.removeView(view);
+			ViewGroup parent = (ViewGroup) rootView.getParent();
+			parent.removeView(rootView);
 		}
 
-		return view;
+		return rootView;
 	}
 
 	public void refresh() {
@@ -61,8 +64,20 @@ public class NewsFragment extends BaseV4Fragment implements OnItemClickListener 
 	protected void receivedResult(int resultCode, Bundle resultData) {
 		List<RssItem> items = (List<RssItem>) resultData.getSerializable(RssService.ITEMS);
 		if (items != null) {
-			RssAdapter adapter = new RssAdapter(getActivity(), items);
-			listView.setAdapter(adapter);
+			if (items.size() == 0) {
+				if (isDetached() || isRemoving() || isHidden() || !isVisible()) {
+					return;
+				}
+
+				LinearLayout parent = (LinearLayout)rootView.findViewById(R.id.progressBar1).getParent();
+				TextView tv = new TextView(getActivity());
+				tv.setGravity(Gravity.CENTER);
+				tv.setText(getString(R.string.rss_not_found));
+				parent.addView(tv);
+			} else {
+				RssAdapter adapter = new RssAdapter(getActivity(), items);
+				listView.setAdapter(adapter);
+			}
 		} else {
 			Toast.makeText(getActivity(), "An error occured while downloading the rss feed.",
 					Toast.LENGTH_LONG).show();
@@ -79,7 +94,7 @@ public class NewsFragment extends BaseV4Fragment implements OnItemClickListener 
 		Bundle bundle = new Bundle();
 		bundle.putString("title", item.getTitle());
 		bundle.putString("pubDate", item.getDate());
-		bundle.putString("description", item.getDescription());
+		bundle.putString("content", item.getDescription());
 
 		NewsContentFragment newsContentFragment = new NewsContentFragment();
 		newsContentFragment.setArguments(bundle);

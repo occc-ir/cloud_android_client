@@ -4,14 +4,16 @@
     android:layout_height="match_parent" >
 
     <!-- Framelayout to display Fragments -->
+
     <FrameLayout
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <!-- Listview to display slider menu -->
+
     <ListView
-        android:id="@+id/list_slidermenu"
+        android:id="@+id/list_slidermenuleft"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
@@ -20,16 +22,50 @@
         android:divider="@color/list_divider"
         android:dividerHeight="1dp"
         android:listSelector="@drawable/list_selector" />
-    
-    
+
     <!-- Listview to display slider menu -->
 
-    <ListView
+    <RelativeLayout
+        android:id="@+id/slidermenuright"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="@color/list_background"
+        android:dividerHeight="1dp" >
+
+        <SearchView
+            android:id="@+id/searchViewMain"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:iconifiedByDefault="false" >
+        </SearchView>
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_alignBottom="@+id/searchViewMain"
+            android:layout_alignParentLeft="true"
+            android:background="@android:color/darker_gray" >
+        </TableRow>
+
+        <ListView
+            android:id="@+id/list_slidermenuright"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/searchViewMain" >
+        </ListView>
+    </RelativeLayout>
+
+    <!-- <ListView
         android:id="@+id/list_slidermenu2"
         android:layout_width="350dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:background="@color/list_background"
-        android:dividerHeight="1dp" />
+        android:dividerHeight="1dp" /> -->
 
 </android.support.v4.widget.DrawerLayout>
