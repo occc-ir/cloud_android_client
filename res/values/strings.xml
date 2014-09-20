@@ -44,4 +44,10 @@
     <string name="refresh">Refresh</string>
     <string name="title">Title</string>
     <string name="news_content">Empty text.</string>
+    <string name="news_search_label">News</string>
+    <string name="news_search_hint">Search on news</string>
+    <string name="wiki_search_label">Wiki</string>
+    <string name="wiki_search_hint">Search on wiki</string>
+    <string name="search_button">Search</string>
+    
 </resources>

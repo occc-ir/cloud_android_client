@@ -31,15 +31,16 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:background="@color/list_background"
-        android:dividerHeight="1dp" >
+        android:clickable="true"
+        android:dividerHeight="1dp"
+        android:focusableInTouchMode="true" >
 
         <SearchView
             android:id="@+id/searchViewMain"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:iconifiedByDefault="false" >
+            android:layout_alignParentTop="true" >
         </SearchView>
 
         <TableRow

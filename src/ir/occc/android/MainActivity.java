@@ -19,20 +19,26 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements OnQueryTextListener {
 
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerListLeft;
 	private ListView mDrawerListRight;
 	private RelativeLayout mDrawerRight;
 	private ActionBarDrawerToggle mDrawerToggle;
-	
+	private SearchView mSearchView;
+	private Fragments activeFragment;
+
 	// nav drawer title
 	private CharSequence mDrawerTitle;
 
@@ -45,15 +51,20 @@ public class MainActivity extends FragmentActivity {
 
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
-	
+
 	private SharedPreferences sharedPreferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		sharedPreferences = getSharedPreferences("oCCc", MODE_PRIVATE);
+		try {
+			activeFragment = Fragments.toFragments(sharedPreferences.getString("fragment", "News"));
+		} catch (Exception e) {
+			activeFragment = Fragments.News;
+		}
 
 		mTitle = mDrawerTitle = getTitle();
 
@@ -69,7 +80,17 @@ public class MainActivity extends FragmentActivity {
 		mDrawerListLeft.setOnItemClickListener(new LeftSlideMenuClickListener());
 		
 		mDrawerRight = (RelativeLayout) findViewById(R.id.slidermenuright);
-		
+		mDrawerRight.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				Log.d("oCCc", "relative layout view touched");
+				mSearchView.setIconified(false);
+				
+				return true;
+			}
+		});
+
 		mDrawerListRight = (ListView) findViewById(R.id.list_slidermenuright);
 		mDrawerListRight.setOnItemClickListener(new RightSlideMenuClickListener());
 
@@ -120,13 +141,23 @@ public class MainActivity extends FragmentActivity {
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-		
+
 		if (savedInstanceState == null) {
 			// on first time display view for first nav item
 			displayView(0);
 		}
-	}
 
+		mSearchView = (SearchView)findViewById(R.id.searchViewMain);
+		mSearchView.setOnQueryTextListener(this);
+		mSearchView.requestFocus();
+	}
+	
+	@Override
+	public boolean onSearchRequested() {
+		Log.d("oCCc", "Search Requested!");
+		return super.onSearchRequested();
+	}
+	
 	private void prepareNewsItemMenu() {
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
 	}
@@ -138,16 +169,16 @@ public class MainActivity extends FragmentActivity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		int unreadArticle = 0;
 		try {
 			unreadArticle = sharedPreferences.getInt("wikiCounterNumber", 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		int newArticleCounter = getNewWikiArticleCount();
-		
+
 		if (unreadArticle > 0) {
 			unreadArticle += newArticleCounter;
 			isVisible = true;
@@ -161,10 +192,10 @@ public class MainActivity extends FragmentActivity {
 				isVisible = false;
 			}
 		}
-		
+
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1), isVisible, String.valueOf(unreadArticle)));
 	}
-	
+
 	private int getNewWikiArticleCount() {
 		// TODO get new article from wiki
 		return 14;
@@ -173,18 +204,21 @@ public class MainActivity extends FragmentActivity {
 	private void displayView(int position) {
 		// update the main content by replacing fragments
 		Fragment fragment = null;
+		SharedPreferences sharedPreferences = getSharedPreferences("oCCc", MODE_PRIVATE);
+		Editor editor = sharedPreferences.edit();
+		
 		switch (position) {
 		case 0:
 			fragment = new NewsFragment();
+			activeFragment = Fragments.News;
+			
 			break;
 		case 1:
 			fragment = new WikiFragment();
+			activeFragment = Fragments.Wiki;
 			
-			SharedPreferences sharedPreferences = getSharedPreferences("oCCc", MODE_PRIVATE);
-			Editor editor = sharedPreferences.edit();
 			editor.putBoolean("wikiCounterVisible", false);
 			editor.putInt("wikiCounterNumber", 0);
-			editor.commit();
 			
 			navDrawerItems.get(1).setCounterVisibility(false);
 			navDrawerItems.get(1).setCount("0");
@@ -192,20 +226,27 @@ public class MainActivity extends FragmentActivity {
 			break;
 		case 2:
 			//            fragment = new PhotosFragment();
+			//			  activeFragment = Fragments.Photos;
 			break;
 		case 3:
 			//			fragment = new WikiFragment();
+			//			  activeFragment = Fragments.Wiki;
 			break;
 		case 4:
 			//            fragment = new PagesFragment();
+			//			  activeFragment = Fragments.Pages;
 			break;
 		case 5:
 			//            fragment = new WhatsHotFragment();
+			//			  activeFragment = Fragments.WhatsHot;
 			break;
 
 		default:
 			break;
 		}
+		
+		editor.putString("fragment", activeFragment.toString());
+		editor.commit();
 
 		if (fragment != null) {
 			final FragmentManager fragmentManager = getSupportFragmentManager();
@@ -216,6 +257,7 @@ public class MainActivity extends FragmentActivity {
 			mDrawerListLeft.setSelection(position);
 			setTitle(navMenuTitles[position]);
 			mDrawerLayout.closeDrawer(mDrawerListLeft);
+			mDrawerLayout.closeDrawer(mDrawerRight);
 		} else {
 			// error in creating fragment
 			Log.e("MainActivity", "Error in creating fragment");
@@ -231,6 +273,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// toggle nav drawer on selecting action bar app icon/title
+		mDrawerLayout.closeDrawer(mDrawerRight);
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
@@ -263,10 +306,14 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// if nav drawer is opened, hide the action items
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerListLeft);
-		drawerOpen =  mDrawerLayout.isDrawerOpen(mDrawerRight);
+		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerListLeft) || mDrawerLayout.isDrawerOpen(mDrawerRight);
 		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
 		menu.findItem(R.id.action_refresh).setVisible(!drawerOpen);
+
+		if (mDrawerLayout.isDrawerOpen(mDrawerListLeft)) {
+			mDrawerLayout.closeDrawer(mDrawerRight);
+		}
+
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -308,7 +355,7 @@ public class MainActivity extends FragmentActivity {
 		}
 
 	}
-	
+
 	public class RightSlideMenuClickListener implements OnItemClickListener {
 
 		@Override
@@ -318,6 +365,27 @@ public class MainActivity extends FragmentActivity {
 			displayView(position);
 		}
 
+	}
+
+	@Override
+	public boolean onQueryTextChange(String newText) {
+		
+		return true;
+	}
+
+	@Override
+	public boolean onQueryTextSubmit(String query) {
+		switch (activeFragment) {
+		case News:
+			searchInNews(query);
+			return true;
+		case Wiki:
+			searchInWiki(query);
+			return true;
+		default:
+			break;
+		}
+		return false;
 	}
 
 	@Override
@@ -331,5 +399,15 @@ public class MainActivity extends FragmentActivity {
 		}
 
 		return super.onKeyDown(keyCode, event);
+	}
+
+	private void searchInNews(String query) {
+		Log.d("oCCc", "from news: " + query);
+		mSearchView.clearFocus();
+	}
+
+	private void searchInWiki(String query) {
+		Log.d("oCCc", "from wiki: " + query);
+		mSearchView.clearFocus();
 	}
 }
