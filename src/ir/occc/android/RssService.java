@@ -14,6 +14,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
@@ -37,7 +38,19 @@ public class RssService extends IntentService {
 		List<RssItem> rssItems = null;
 		try {
             CustomRssParser parser = new CustomRssParser();
-            InputStream urlIs = getInputStream(getString(R.string.rss_link_test));
+            
+            SharedPreferences sharedPreferences = getSharedPreferences("oCCc", MODE_PRIVATE);
+			
+			boolean isTest;
+			try {
+				Log.d("oCCc", "getting isTest");
+				isTest = sharedPreferences.getBoolean("isTest", false);
+				Log.d("oCCc", "get isTest: " + String.valueOf(isTest));
+			} catch (Exception e) {
+				isTest = false;
+			}
+            
+            InputStream urlIs = getInputStream(isTest ? getString(R.string.rss_link_test) : getString(R.string.rss_link));
             rssItems = urlIs == null ? new ArrayList<RssItem>() : parser.parse(urlIs);
         } catch (XmlPullParserException e) {
             Log.w(e.getMessage(), e);

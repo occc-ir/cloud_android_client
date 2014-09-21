@@ -12,6 +12,7 @@
     <string name="wiki_api_url">http://wiki.occc.ir/api.php</string>
     <string name="wiki_api_url_test">"http://172.18.23.231/mediawiki/api.php"</string>
     <string name="page_not_found">صفحه مورد نظر یافت نشد</string>
+    <string name="query_has_problem">جستجو نتیجه ای نداشت</string>
 
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
@@ -49,5 +50,6 @@
     <string name="wiki_search_label">Wiki</string>
     <string name="wiki_search_hint">Search on wiki</string>
     <string name="search_button">Search</string>
+    <string name="is_test">Is Test</string>
     
 </resources>

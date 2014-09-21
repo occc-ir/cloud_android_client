@@ -9,6 +9,7 @@ import java.util.List;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ResultReceiver;
@@ -37,7 +38,16 @@ public class WikiService extends IntentService {
 		}
 
 		if (user == null) {
-			user = new User("", "", getString(R.string.wiki_api_url_test));
+			SharedPreferences sharedPreferences = getSharedPreferences("oCCc", MODE_PRIVATE);
+			
+			boolean isTest;
+			try {
+				isTest = sharedPreferences.getBoolean("isTest", false);
+			} catch (Exception e) {
+				isTest = false;
+			}
+			
+			user = new User("", "", isTest ? getString(R.string.wiki_api_url_test) : getString(R.string.wiki_api_url));
 			user.login();
 		}
 		readByQuery(intent);

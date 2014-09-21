@@ -9,6 +9,7 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,8 @@ public class WikiFragment extends BaseV4Fragment implements OnItemClickListener 
 	private WebView webView;
 	private ProgressBar progressBar;
 	private ListView lvPages;
+	private QueryType queryType;
+	private String queryText;
 
 	public WikiFragment(){}
 	
@@ -60,40 +63,53 @@ public class WikiFragment extends BaseV4Fragment implements OnItemClickListener 
 		webView = (WebView)rootView.findViewById(R.id.webViewWiki);
 		mainLayout = ((LinearLayout)webView.getParent());
 
-		startService();
+		//startService(new String[] {"cloudsim", "کلادسیم"});
+		this.queryType = QueryType.WikiTitle;
 
 		return rootView;
 	}
 
-	public void refresh() {
-		startService();
+	public void refresh(QueryType type, String query) {
+		//startService(new String[] {"cloudsim", "کلادسیم"});
+		stopService(WikiService.class);
+		Log.d("oCCc", "query text is: " + 	queryText);
+		search(queryType, query);
+	}
+	
+	@Override
+	protected void search(QueryType type, String query) {
+		this.queryType = type;
+		this.queryText = query;
+		
+		switch (type) {
+		case WikiTitle:
+			startService(new String[] { query });
+			break;
+			
+		case WikiContent:
+			break;
+			
+		default:
+			break;
+		}
 	}
 
-	private void startService() {
+	private void startService(String[] titles) {
 		mainLayout.setGravity(Gravity.CENTER);
 		progressBar.setVisibility(View.VISIBLE);
 		webView.setVisibility(View.GONE);
 		if (lvPages != null) {
 			lvPages.setVisibility(View.GONE);
 		}
-		startService(WikiService.class, WikiService.CMD_WIKI_SEARCH, new String[] {"cloudsim", "کلادسیم"});
+		startService(WikiService.class, WikiService.CMD_WIKI_SEARCH, titles);
 	}
 
 	protected void receivedResult(int resultCode, Bundle resultData) {
 		@SuppressWarnings("unchecked")
 		List<Page> listOfPages = (List<Page>) resultData.getSerializable(RssService.ITEMS);
 
-		String html = "";
-
 		if (listOfPages.size() == 0) {
-			html = "<html><body dir='rtl'><div style='text-align:center'>"+ getString(R.string.page_not_found) +"</div></body></html>";
-			webView.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null);
-			webView.setVisibility(View.VISIBLE);
-
-			// Handle pages list view on searching again
-			if (lvPages != null) {
-				lvPages.setVisibility(View.GONE);
-			}
+			viewNoContent(getString(R.string.page_not_found));
 		/*} else if (listOfPages.size() == 1) {
 			for (Page page : listOfPages) {
 				viewWikiContent(page.getCurrentContent());
@@ -101,13 +117,17 @@ public class WikiFragment extends BaseV4Fragment implements OnItemClickListener 
 		} else {
 			List<WikiPageItem> items = new ArrayList<WikiPageItem>();
 			for (Page page : listOfPages) {
-				String pageTitle = page.getTitle();
-				String pageContent = page.getCurrentContent();
-				int pageId = Integer.parseInt(page.getPageid());
-				//int len = pageContent.length() < 70 ? pageContent.length() : 70;
-				
-				WikiPageItem item = new WikiPageItem(pageTitle, pageContent, pageId);
-				items.add(item);
+				try {
+					String pageTitle = page.getTitle();
+					String pageContent = page.getCurrentContent();
+					int pageId = Integer.parseInt(page.getPageid());
+					//int len = pageContent.length() < 70 ? pageContent.length() : 70;
+					
+					WikiPageItem item = new WikiPageItem(pageTitle, pageContent, pageId);
+					items.add(item);
+				} catch (Exception e) {
+					viewNoContent(getString(R.string.query_has_problem));
+				}
 			}
 
 			WikiPageAdapter adapter = new WikiPageAdapter(getActivity(), items);
@@ -127,8 +147,24 @@ public class WikiFragment extends BaseV4Fragment implements OnItemClickListener 
 			progressBar.setVisibility(View.GONE);
 			
 			if (listOfPages.size() == 1) {
-				viewWikiContent(0, adapter);
+				if (adapter.getCount() == 0) {
+					viewNoContent(getString(R.string.query_has_problem));
+				} else { 
+					viewWikiContent(0, adapter);
+				}
 			}
+		}
+	}
+
+	private void viewNoContent(String text) {
+		String html;
+		html = "<html><body dir='rtl'><div style='text-align:center'>"+ text +"</div></body></html>";
+		webView.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null);
+		webView.setVisibility(View.VISIBLE);
+
+		// Handle pages list view on searching again
+		if (lvPages != null) {
+			lvPages.setVisibility(View.GONE);
 		}
 	}
 

@@ -35,12 +35,20 @@
         android:dividerHeight="1dp"
         android:focusableInTouchMode="true" >
 
+        <CheckBox
+            android:id="@+id/checkBoxTestValues"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/is_test" />
+
         <SearchView
             android:id="@+id/searchViewMain"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true" >
+            android:layout_below="@+id/checkBoxTestValues" >
         </SearchView>
 
         <TableRow
@@ -61,12 +69,14 @@
         </ListView>
     </RelativeLayout>
 
-    <!-- <ListView
+    <!--
+         <ListView
         android:id="@+id/list_slidermenu2"
         android:layout_width="350dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:background="@color/list_background"
-        android:dividerHeight="1dp" /> -->
+        android:dividerHeight="1dp" />
+    -->
 
 </android.support.v4.widget.DrawerLayout>

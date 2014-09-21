@@ -6,6 +6,10 @@ import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v4.app.Fragment;
 
+/**
+ * @author Ahmad
+ *
+ */
 public class BaseV4Fragment extends Fragment {
 	
 	/**
@@ -32,6 +36,12 @@ public class BaseV4Fragment extends Fragment {
 		getActivity().startService(intent);
 	}
 	
+	protected void stopService(Class<?> serviceClass) {
+		Intent intent = new Intent(getActivity(), serviceClass);
+		
+		getActivity().stopService(intent);
+	}
+	
 	/**
 	 * Once the {@link RssService} finishes its task, the result is sent to this ResultReceiver.
 	 */
@@ -48,6 +58,15 @@ public class BaseV4Fragment extends Fragment {
 	 * @param Any additional data provided by the sender.  
 	 */
 	protected void receivedResult(int resultCode, Bundle resultData) {
+		
+	}
+	
+	/**
+	 * search for an item
+	 * @param type Type of query
+	 * @param query The query of search
+	 */
+	protected void search(QueryType type, String query) {
 		
 	}
 }

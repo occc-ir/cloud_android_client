@@ -1106,7 +1106,7 @@ containing a value of this type.
         public static final int list_selector=0x7f02005f;
     }
     public static final class id {
-        public static final int LinearLayout1=0x7f080044;
+        public static final int LinearLayout1=0x7f080045;
         public static final int action_bar=0x7f08001c;
         public static final int action_bar_activity_content=0x7f080015;
         public static final int action_bar_container=0x7f08001b;
@@ -1118,15 +1118,16 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f080016;
         public static final int action_menu_presenter=0x7f080017;
         public static final int action_mode_close_button=0x7f080024;
-        public static final int action_refresh=0x7f080052;
-        public static final int action_settings=0x7f080053;
+        public static final int action_refresh=0x7f080053;
+        public static final int action_settings=0x7f080054;
         public static final int activity_chooser_view_content=0x7f080025;
         public static final int always=0x7f08000b;
         public static final int beginning=0x7f080011;
-        public static final int button1=0x7f08004b;
+        public static final int button1=0x7f08004c;
+        public static final int checkBoxTestValues=0x7f080040;
         public static final int checkbox=0x7f08002d;
         public static final int collapseActionView=0x7f08000d;
-        public static final int counter=0x7f08004d;
+        public static final int counter=0x7f08004e;
         public static final int default_activity_button=0x7f080028;
         public static final int dialog=0x7f08000e;
         public static final int disableHome=0x7f080008;
@@ -1143,24 +1144,24 @@ containing a value of this type.
         public static final int ifRoom=0x7f08000a;
         public static final int image=0x7f080027;
         public static final int listMode=0x7f080001;
-        public static final int listView=0x7f080045;
+        public static final int listView=0x7f080046;
         public static final int list_item=0x7f080029;
         public static final int list_slidermenuleft=0x7f08003e;
-        public static final int list_slidermenuright=0x7f080042;
+        public static final int list_slidermenuright=0x7f080043;
         public static final int middle=0x7f080012;
         public static final int never=0x7f080009;
         public static final int none=0x7f080010;
         public static final int normal=0x7f080000;
-        public static final int postContentLabel=0x7f080051;
-        public static final int postPubDateLabel=0x7f080050;
-        public static final int postThumb=0x7f08004e;
-        public static final int postTitleLabel=0x7f08004f;
-        public static final int progressBar1=0x7f080046;
+        public static final int postContentLabel=0x7f080052;
+        public static final int postPubDateLabel=0x7f080051;
+        public static final int postThumb=0x7f08004f;
+        public static final int postTitleLabel=0x7f080050;
+        public static final int progressBar1=0x7f080047;
         public static final int progress_circular=0x7f080018;
         public static final int progress_horizontal=0x7f080019;
         public static final int radio=0x7f08002f;
-        public static final int scrollView1=0x7f080047;
-        public static final int searchViewMain=0x7f080040;
+        public static final int scrollView1=0x7f080048;
+        public static final int searchViewMain=0x7f080041;
         public static final int search_badge=0x7f080032;
         public static final int search_bar=0x7f080031;
         public static final int search_button=0x7f080033;
@@ -1179,16 +1180,16 @@ containing a value of this type.
         public static final int split_action_bar=0x7f08001e;
         public static final int submit_area=0x7f080039;
         public static final int tabMode=0x7f080002;
-        public static final int tableRow1=0x7f080041;
+        public static final int tableRow1=0x7f080042;
         public static final int title=0x7f08002b;
         public static final int top_action_bar=0x7f080020;
-        public static final int tvNewsPubDate=0x7f080049;
-        public static final int tvTitle=0x7f080048;
-        public static final int txtLabel=0x7f080043;
+        public static final int tvNewsPubDate=0x7f08004a;
+        public static final int tvTitle=0x7f080049;
+        public static final int txtLabel=0x7f080044;
         public static final int up=0x7f080021;
         public static final int useLogo=0x7f080003;
-        public static final int webViewContent=0x7f08004a;
-        public static final int webViewWiki=0x7f08004c;
+        public static final int webViewContent=0x7f08004b;
+        public static final int webViewWiki=0x7f08004d;
         public static final int withText=0x7f08000c;
     }
     public static final class integer {
@@ -1301,28 +1302,30 @@ containing a value of this type.
         public static final int abc_shareactionprovider_share_with_application=0x7f06000c;
         public static final int action_settings=0x7f06000f;
         public static final int app_name=0x7f060000;
-        public static final int communities_view=0x7f06001a;
+        public static final int communities_view=0x7f06001b;
         /**  Content Description 
          */
-        public static final int desc_list_item_icon=0x7f060018;
+        public static final int desc_list_item_icon=0x7f060019;
         public static final int empty_text=0x7f060010;
         public static final int hello_world=0x7f06000e;
-        public static final int home_view=0x7f060019;
-        public static final int news_content=0x7f06001d;
-        public static final int news_search_hint=0x7f06001f;
-        public static final int news_search_label=0x7f06001e;
+        public static final int home_view=0x7f06001a;
+        public static final int is_test=0x7f060024;
+        public static final int news_content=0x7f06001e;
+        public static final int news_search_hint=0x7f060020;
+        public static final int news_search_label=0x7f06001f;
         public static final int page_not_found=0x7f060017;
-        public static final int refresh=0x7f06001b;
+        public static final int query_has_problem=0x7f060018;
+        public static final int refresh=0x7f06001c;
         public static final int rss_link=0x7f060012;
         public static final int rss_link_test=0x7f060013;
         public static final int rss_not_found=0x7f060014;
-        public static final int search_button=0x7f060022;
-        public static final int title=0x7f06001c;
+        public static final int search_button=0x7f060023;
+        public static final int title=0x7f06001d;
         public static final int wiki_api_url=0x7f060015;
         public static final int wiki_api_url_test=0x7f060016;
         public static final int wiki_nothing=0x7f060011;
-        public static final int wiki_search_hint=0x7f060021;
-        public static final int wiki_search_label=0x7f060020;
+        public static final int wiki_search_hint=0x7f060022;
+        public static final int wiki_search_label=0x7f060021;
     }
     public static final class style {
         /** 

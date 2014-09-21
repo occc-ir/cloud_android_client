@@ -24,6 +24,9 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -38,6 +41,8 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 	private ActionBarDrawerToggle mDrawerToggle;
 	private SearchView mSearchView;
 	private Fragments activeFragment;
+	private Fragment fragment;
+	private Boolean isTest;
 
 	// nav drawer title
 	private CharSequence mDrawerTitle;
@@ -65,6 +70,25 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 		} catch (Exception e) {
 			activeFragment = Fragments.News;
 		}
+		try {
+			isTest = sharedPreferences.getBoolean("isTest", false);
+		} catch (Exception e) {
+			isTest = false;
+		}
+		
+		CheckBox chbIsTest = (CheckBox)findViewById(R.id.checkBoxTestValues);
+		chbIsTest.setChecked(isTest);
+		chbIsTest.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				isTest = isChecked;
+				SharedPreferences sharedPreferences = getSharedPreferences("oCCc", MODE_PRIVATE);
+				Editor editor = sharedPreferences.edit();
+				editor.putBoolean("isTest", isTest);
+				editor.commit();
+			}
+		});
 
 		mTitle = mDrawerTitle = getTitle();
 
@@ -203,9 +227,10 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 
 	private void displayView(int position) {
 		// update the main content by replacing fragments
-		Fragment fragment = null;
 		SharedPreferences sharedPreferences = getSharedPreferences("oCCc", MODE_PRIVATE);
 		Editor editor = sharedPreferences.edit();
+
+		editor.putBoolean("isTest", isTest);
 		
 		switch (position) {
 		case 0:
@@ -292,7 +317,7 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 				newsContentFragment.refresh();
 			} else if (fragment instanceof WikiFragment) {
 				WikiFragment wikiFragment = (WikiFragment)fragment;
-				wikiFragment.refresh();
+				wikiFragment.refresh(QueryType.WikiTitle, " ");
 			}
 			return true;
 		default:
@@ -402,12 +427,26 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 	}
 
 	private void searchInNews(String query) {
-		Log.d("oCCc", "from news: " + query);
 		mSearchView.clearFocus();
+		
+		/*if (fragment instanceof NewsFragment) {
+			NewsFragment newsFragment = (NewsFragment)fragment;
+			newsFragment.refresh();
+		}*/
 	}
 
 	private void searchInWiki(String query) {
-		Log.d("oCCc", "from wiki: " + query);
 		mSearchView.clearFocus();
+		
+		if (fragment instanceof WikiFragment) {
+			WikiFragment wikiFragment = (WikiFragment)fragment;
+			if (!wikiFragment.isVisible()) {
+				if (this.getSupportFragmentManager().getBackStackEntryCount() != 0) {
+					this.getSupportFragmentManager().popBackStack();
+					//this.getSupportFragmentManager().popBackStackImmediate();
+				}
+			}
+			wikiFragment.refresh(QueryType.WikiTitle, query);
+		}
 	}
 }
