@@ -5,8 +5,8 @@ import ir.occc.android.model.RssItem;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +14,6 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
@@ -23,7 +22,6 @@ public class RssService extends IntentService {
 
 //	private static final String RSS_LINK =;
 	public static final String ITEMS = "items";
-	public static final String RECEIVER = "receiver";
 	
 	public RssService() {
 		super("oCCc Rss Service");
@@ -39,18 +37,24 @@ public class RssService extends IntentService {
 		try {
             CustomRssParser parser = new CustomRssParser();
             
-            SharedPreferences sharedPreferences = getSharedPreferences("oCCc", MODE_PRIVATE);
+            /*SharedPreferences sharedPreferences = getSharedPreferences("oCCc", MODE_PRIVATE);
 			
 			boolean isTest;
 			try {
-				Log.d("oCCc", "getting isTest");
 				isTest = sharedPreferences.getBoolean("isTest", false);
-				Log.d("oCCc", "get isTest: " + String.valueOf(isTest));
 			} catch (Exception e) {
 				isTest = false;
+			}*/
+			
+			String rssLink = "";
+			try {
+				rssLink = intent.getStringExtra(Common.RSS_LINK);
+			} catch (Exception e) {
+				
 			}
             
-            InputStream urlIs = getInputStream(isTest ? getString(R.string.rss_link_test) : getString(R.string.rss_link));
+            //InputStream urlIs = getInputStream(isTest ? getString(R.string.rss_link_test) : getString(R.string.rss_link));
+			InputStream urlIs = getInputStream(rssLink);
             rssItems = urlIs == null ? new ArrayList<RssItem>() : parser.parse(urlIs);
         } catch (XmlPullParserException e) {
             Log.w(e.getMessage(), e);
@@ -59,7 +63,7 @@ public class RssService extends IntentService {
         }
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(ITEMS, (Serializable) rssItems);
-		ResultReceiver receiver = intent.getParcelableExtra(RECEIVER);
+		ResultReceiver receiver = intent.getParcelableExtra(Common.RECEIVER);
 		receiver.send(0, bundle);
 	}
 
@@ -67,9 +71,20 @@ public class RssService extends IntentService {
 		InputStream is = null;
 		try {
 			URL url = new URL(link);
-			URLConnection urlCon = url.openConnection();
-			urlCon.setReadTimeout(20000);
-			is = urlCon.getInputStream();
+			HttpURLConnection urlCon = (HttpURLConnection)url.openConnection();
+			int httpCode = urlCon.getResponseCode();
+			urlCon.setConnectTimeout(10000);
+			urlCon.setReadTimeout(10000);
+			
+			if (httpCode / 100 != 2)
+			{
+				Log.d("oCCc", "Something bad happend");
+			}
+			else {
+				Log.d("oCCc", "get Input stream!!!");
+				is = urlCon.getInputStream();
+			}
+			
 			//return is;
 		} catch (IOException e) {
 			Log.w("oCCc", "Exception while retrieving the input stream", e);

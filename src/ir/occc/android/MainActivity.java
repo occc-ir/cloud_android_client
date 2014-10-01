@@ -1,9 +1,11 @@
 package ir.occc.android;
 
 import ir.occc.android.adapter.NavDrawerListAdapter;
+import ir.occc.android.adapter.RightNavDrawerListAdapter;
 import ir.occc.android.model.NavDrawerItem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -31,6 +33,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
+import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity implements OnQueryTextListener {
 
@@ -43,6 +46,7 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 	private Fragments activeFragment;
 	private Fragment fragment;
 	private Boolean isTest;
+	private String rssLink;
 
 	// nav drawer title
 	private CharSequence mDrawerTitle;
@@ -55,7 +59,8 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 	private TypedArray navMenuIcons;
 
 	private ArrayList<NavDrawerItem> navDrawerItems;
-	private NavDrawerListAdapter adapter;
+	private NavDrawerListAdapter navLeftAdapter;
+	private RightNavDrawerListAdapter navRightAdapter;
 
 	private SharedPreferences sharedPreferences;
 
@@ -139,9 +144,13 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 		navMenuIcons.recycle();
 
 		// setting the nav drawer list adapter
-		adapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
-		mDrawerListLeft.setAdapter(adapter);
-		mDrawerListRight.setAdapter(adapter);
+		navLeftAdapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
+		mDrawerListLeft.setAdapter(navLeftAdapter);
+
+		ArrayList<String> rightNavDrawerItems = new ArrayList<String>();
+		rightNavDrawerItems.addAll(Arrays.asList(getResources().getStringArray(R.array.rss_feed_items)));
+		navRightAdapter = new RightNavDrawerListAdapter(getApplicationContext(), rightNavDrawerItems); 
+		mDrawerListRight.setAdapter(navRightAdapter);
 
 		// enabling action bar app icon and behaving it as toggle button
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -184,9 +193,13 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 	
 	private void prepareNewsItemMenu() {
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
+		
 	}
 
-	private void prepareWikiItemMenu() {		
+	private void prepareWikiItemMenu() {
+		
+		mDrawerListRight.setAdapter(null);
+		
 		Boolean isVisible = false;
 		try {
 			isVisible = sharedPreferences.getBoolean("wikiCounterVisible", true);
@@ -200,7 +213,7 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 		int newArticleCounter = getNewWikiArticleCount();
 
 		if (unreadArticle > 0) {
@@ -237,6 +250,17 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 			fragment = new NewsFragment();
 			activeFragment = Fragments.News;
 			
+			if (rssLink == null || rssLink.length() == 0) {
+				try {
+					rssLink = sharedPreferences.getString(Common.RSS_LINK, "");
+				} catch (Exception e) {
+					
+				}
+			}
+			
+			Bundle data = new Bundle();
+			data.putString(Common.RSS_LINK, rssLink);
+			fragment.setArguments(data);
 			break;
 		case 1:
 			fragment = new WikiFragment();
@@ -310,8 +334,17 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 		case R.id.action_refresh:
 			Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
 			if (fragment instanceof NewsFragment) {
+				
+				if (rssLink == null || rssLink.length() == 0) {
+					try {
+						rssLink = sharedPreferences.getString(Common.RSS_LINK, "");
+					} catch (Exception e) {
+						
+					}
+				}
+				
 				NewsFragment newsFragment = (NewsFragment)fragment;
-				newsFragment.refresh();
+				newsFragment.refresh(rssLink);
 			} else if (fragment instanceof NewsContentFragment) {
 				NewsContentFragment newsContentFragment = (NewsContentFragment)fragment;
 				newsContentFragment.refresh();
@@ -387,7 +420,26 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			// display view for selected nav drawer item
-			displayView(position);
+			if (fragment instanceof NewsFragment || fragment instanceof NewsContentFragment) {
+
+				TextView tv = (TextView)view.findViewById(R.id.title);
+				rssLink = tv.getTag().toString();
+				
+				/*RightNavDrawerListAdapter adapter = (RightNavDrawerListAdapter)parent.getAdapter();
+				rssLink = adapter.getItem(position).toString();*/
+				
+				SharedPreferences sharedPreferences = getSharedPreferences("oCCc", MODE_PRIVATE);
+				Editor editor = sharedPreferences.edit();
+				editor.putString(Common.RSS_LINK, rssLink);
+				editor.commit();
+				
+				if (fragment instanceof NewsFragment) {
+					NewsFragment newsFragment = (NewsFragment)fragment;
+					newsFragment.refresh(rssLink);
+				}
+				
+				mDrawerLayout.closeDrawer(mDrawerRight);
+			}
 		}
 
 	}

@@ -23,10 +23,13 @@ public final class R {
          <item>@drawable/ic_pages</item> 
          <item>@drawable/ic_whats_hot</item> 
          */
-        public static final int nav_drawer_icons=0x7f0d0001;
+        public static final int nav_drawer_icons=0x7f0d0002;
         /**  Nav Drawer Menu Items 
          */
         public static final int nav_drawer_items=0x7f0d0000;
+        /**  RSS Feed Right Nav Drawer Menu Items 
+         */
+        public static final int rss_feed_items=0x7f0d0001;
     }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
@@ -1302,30 +1305,33 @@ containing a value of this type.
         public static final int abc_shareactionprovider_share_with_application=0x7f06000c;
         public static final int action_settings=0x7f06000f;
         public static final int app_name=0x7f060000;
-        public static final int communities_view=0x7f06001b;
+        public static final int communities_view=0x7f060019;
         /**  Content Description 
          */
-        public static final int desc_list_item_icon=0x7f060019;
+        public static final int desc_list_item_icon=0x7f060017;
         public static final int empty_text=0x7f060010;
         public static final int hello_world=0x7f06000e;
-        public static final int home_view=0x7f06001a;
-        public static final int is_test=0x7f060024;
-        public static final int news_content=0x7f06001e;
-        public static final int news_search_hint=0x7f060020;
-        public static final int news_search_label=0x7f06001f;
-        public static final int page_not_found=0x7f060017;
-        public static final int query_has_problem=0x7f060018;
-        public static final int refresh=0x7f06001c;
-        public static final int rss_link=0x7f060012;
-        public static final int rss_link_test=0x7f060013;
-        public static final int rss_not_found=0x7f060014;
-        public static final int search_button=0x7f060023;
-        public static final int title=0x7f06001d;
-        public static final int wiki_api_url=0x7f060015;
-        public static final int wiki_api_url_test=0x7f060016;
+        public static final int home_view=0x7f060018;
+        public static final int is_test=0x7f060022;
+        public static final int news_content=0x7f06001c;
+        public static final int news_search_hint=0x7f06001e;
+        public static final int news_search_label=0x7f06001d;
+        public static final int page_not_found=0x7f060015;
+        public static final int query_has_problem=0x7f060016;
+        public static final int refresh=0x7f06001a;
+        /**  
+    	<string name="rss_link">http://occc.ir/index.php/media-archive/news-archive?format=feed&amp;type=rss</string>
+    	<string name="rss_link_test">http://172.18.4.163:8045/news-archive.xml</string>
+   	
+         */
+        public static final int rss_not_found=0x7f060012;
+        public static final int search_button=0x7f060021;
+        public static final int title=0x7f06001b;
+        public static final int wiki_api_url=0x7f060013;
+        public static final int wiki_api_url_test=0x7f060014;
         public static final int wiki_nothing=0x7f060011;
-        public static final int wiki_search_hint=0x7f060022;
-        public static final int wiki_search_label=0x7f060021;
+        public static final int wiki_search_hint=0x7f060020;
+        public static final int wiki_search_label=0x7f06001f;
     }
     public static final class style {
         /** 

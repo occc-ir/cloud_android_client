@@ -6,8 +6,10 @@
     <string name="action_settings">Settings</string>
     <string name="empty_text">Empty text.</string>
     <string name="wiki_nothing">There nothing to view!</string>
-    <string name="rss_link">http://occc.ir/index.php/media-archive/news-archive?format=feed&amp;type=rss</string>
-    <string name="rss_link_test">http://172.18.4.163:8045/news-archive.xml</string>
+    <!-- 
+    	<string name="rss_link">http://occc.ir/index.php/media-archive/news-archive?format=feed&amp;type=rss</string>
+    	<string name="rss_link_test">http://172.18.4.163:8045/news-archive.xml</string>
+   	-->
     <string name="rss_not_found">موردی دریافت نشد</string>
     <string name="wiki_api_url">http://wiki.occc.ir/api.php</string>
     <string name="wiki_api_url_test">"http://172.18.23.231/mediawiki/api.php"</string>
@@ -26,7 +28,15 @@
         <item>Wiki</item>
         <item>Forum</item>
     </string-array>
-     
+    
+    <!-- RSS Feed Right Nav Drawer Menu Items -->
+    <string-array name="rss_feed_items">
+        <item>Test,http://172.18.4.163:8045/news-archive.xml</item>
+        <item>آرشیو اخبار,http://occc.ir/index.php/media-archive/news-archive?format=feed&amp;type=rss</item>
+        <item>رصدخانه,http://news.occc.ir/?method=feed&amp;type=rss2</item>
+        <item>پرسش و پاسخ,http://forum.occc.ir/index.php?qa=feed&amp;qa_1=qa.rss</item>
+    </string-array>
+    
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">

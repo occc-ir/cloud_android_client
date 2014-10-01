@@ -18,10 +18,10 @@ import android.os.StrictMode;
 public class WikiService extends IntentService {
 
 	public static final String ITEMS = "items";
-	public static final String RECEIVER = "receiver";
-	public static final String COMMAND = "command";
 	public static final String WIKI_TITLES = "titles";
-	public static final int CMD_WIKI_SEARCH = 1;	
+	public static final int CMD_WIKI_SEARCH_PAGE = 1;
+	public static final int CMD_WIKI_SEARCH_CONTENT = 2;
+	public static final int CMD_WIKI_QUERY = 3;
 
 	User user = null;
 
@@ -54,11 +54,11 @@ public class WikiService extends IntentService {
 	}
 
 	private void readByQuery(Intent intent) {
-		int cmd = intent.getExtras().getInt(COMMAND);
+		int cmd = intent.getExtras().getInt(Common.COMMAND);
 		List<Page> listOfPages = new ArrayList<Page>();
 		
 		switch (cmd) {
-		case CMD_WIKI_SEARCH:
+		case CMD_WIKI_SEARCH_PAGE:
 			String[] listOfTitleStrings = intent.getExtras().getStringArray(WIKI_TITLES);
 			//String[] listOfTitleStrings = { "Cloudsim" };
 			//listOfTitleStrings.add("Main Page");
@@ -81,7 +81,7 @@ public class WikiService extends IntentService {
 		
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(ITEMS, (Serializable) listOfPages);
-		ResultReceiver receiver = intent.getParcelableExtra(RECEIVER);
+		ResultReceiver receiver = intent.getParcelableExtra(Common.RECEIVER);
 		receiver.send(0, bundle);
 	}
 }

@@ -24,11 +24,26 @@ public class NewsFragment extends BaseV4Fragment implements OnItemClickListener 
 	private View rootView;
 	private ListView listView;
 	private ProgressBar progressBar;
+	private TextView tv;
+	
+	private String rssLink = "";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
+		
+		/** Getting the arguments to the Bundle object */
+		Bundle data = getArguments();
+
+		/** Getting data of the key current_page from the bundle */
+		try {
+			if (data.getString(Common.RSS_LINK) != null && data.getString(Common.RSS_LINK).length() > 0) {
+				rssLink = data.getString(Common.RSS_LINK);
+			}
+		} catch (Exception e) {
+			
+		}
 	}
 
 	@Override
@@ -52,12 +67,19 @@ public class NewsFragment extends BaseV4Fragment implements OnItemClickListener 
 		return rootView;
 	}
 
-	public void refresh() {
+	public void refresh(String rssLink) {
+		this.rssLink = rssLink;		
 		startService();
 	}
 
 	private void startService() {
-		startService(RssService.class, null, null);
+		// clear
+		listView.setAdapter(null);
+		if (tv != null)
+			tv.setVisibility(View.GONE);
+		progressBar.setVisibility(View.VISIBLE);
+		
+		startService(RssService.class, null, rssLink);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -70,10 +92,16 @@ public class NewsFragment extends BaseV4Fragment implements OnItemClickListener 
 				}
 
 				LinearLayout parent = (LinearLayout)rootView.findViewById(R.id.progressBar1).getParent();
-				TextView tv = new TextView(getActivity());
+				
+				tv = (tv == null) ? new TextView(getActivity()) : tv;
 				tv.setGravity(Gravity.CENTER);
 				tv.setText(getString(R.string.rss_not_found));
-				parent.addView(tv);
+				tv.setVisibility(View.VISIBLE);
+				if (tv.getParent() == null)
+					parent.addView(tv);
+				
+				// clear
+				listView.setAdapter(null);
 			} else {
 				RssAdapter adapter = new RssAdapter(getActivity(), items);
 				listView.setAdapter(adapter);

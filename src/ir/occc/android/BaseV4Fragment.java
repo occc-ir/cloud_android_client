@@ -24,15 +24,31 @@ public class BaseV4Fragment extends Fragment {
 		}
 		
 		Intent intent = new Intent(getActivity(), serviceClass);
-		intent.putExtra(WikiService.RECEIVER, resultReceiver);
+		intent.putExtra(Common.RECEIVER, resultReceiver);
 
 		if (command != null) {
-			intent.putExtra(WikiService.COMMAND, command);			
+			intent.putExtra(Common.COMMAND, command);			
 		}
 		if (titles != null) {
 			intent.putExtra(WikiService.WIKI_TITLES, titles);	
 		}
 		
+		getActivity().startService(intent);
+	}
+	
+	protected void startService(Class<?> serviceClass, Integer command, String value) {
+		if (serviceClass == null) {
+			return;
+		}
+		
+		Intent intent = new Intent(getActivity(), serviceClass);
+		intent.putExtra(Common.RECEIVER, resultReceiver);
+
+		if (serviceClass == RssService.class) {
+			intent.putExtra(Common.RSS_LINK, value);
+		}
+
+		getActivity().stopService(intent);
 		getActivity().startService(intent);
 	}
 	

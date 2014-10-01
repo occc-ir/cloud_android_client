@@ -101,7 +101,7 @@ public class WikiFragment extends BaseV4Fragment implements OnItemClickListener 
 		if (lvPages != null) {
 			lvPages.setVisibility(View.GONE);
 		}
-		startService(WikiService.class, WikiService.CMD_WIKI_SEARCH, titles);
+		startService(WikiService.class, WikiService.CMD_WIKI_SEARCH_PAGE, titles);
 	}
 
 	protected void receivedResult(int resultCode, Bundle resultData) {
