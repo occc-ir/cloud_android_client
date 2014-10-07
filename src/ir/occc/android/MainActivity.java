@@ -2,7 +2,14 @@ package ir.occc.android;
 
 import ir.occc.android.adapter.NavDrawerListAdapter;
 import ir.occc.android.adapter.RightNavDrawerListAdapter;
+import ir.occc.android.common.Common;
+import ir.occc.android.common.Fragments;
+import ir.occc.android.common.QueryType;
+import ir.occc.android.irc.IrcDemoFragment;
 import ir.occc.android.model.NavDrawerItem;
+import ir.occc.android.rss.NewsContentFragment;
+import ir.occc.android.rss.NewsFragment;
+import ir.occc.android.wiki.WikiFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;

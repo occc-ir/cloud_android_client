@@ -1,7 +1,7 @@
 package ir.occc.android.adapter;
 
-import ir.occc.android.Common;
 import ir.occc.android.R;
+import ir.occc.android.common.Common;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;

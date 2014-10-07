@@ -1,5 +1,9 @@
 package ir.occc.android;
 
+import ir.occc.android.common.Common;
+import ir.occc.android.common.QueryType;
+import ir.occc.android.rss.RssService;
+import ir.occc.android.wiki.WikiService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
