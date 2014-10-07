@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">oCCc</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -26,6 +25,7 @@
         <item >What\'s Hot</item> -->
         <item>News</item>
         <item>Wiki</item>
+        <item>Irc Demo</item>
         <item>Forum</item>
     </string-array>
     
@@ -35,6 +35,16 @@
         <item>آرشیو اخبار,http://occc.ir/index.php/media-archive/news-archive?format=feed&amp;type=rss</item>
         <item>رصدخانه,http://news.occc.ir/?method=feed&amp;type=rss2</item>
         <item>پرسش و پاسخ,http://forum.occc.ir/index.php?qa=feed&amp;qa_1=qa.rss</item>
+        <item>آرشیو خبرنامه,http://occc.ir/index.php/2014&#8211;04&#8211;27&#8211;19&#8211;47&#8211;59/newsleter-archive?format=feed&amp;type=rss</item>
+        <item>آرشیو جلسات,http://occc.ir/index.php/2014&#8211;04&#8211;27&#8211;19&#8211;44&#8211;41/meetingsarchive?format=feed&amp;type=rss</item>
+    </string-array>
+    
+    <!-- Wiki Link Right Nav Drawer Menu Items -->
+    <string-array name="wiki_link_items">
+        <item>رایانش ابری چیست؟,http://wiki.occc.ir/index.php?title=Cloud_Computing</item>
+        <item>آخرین مطالب,http://wiki.occc.ir/index.php?title=ویژه:تغییرات_اخیر</item>
+        <item>مطالب تصادفی,http://wiki.occc.ir/index.php?title=ویژه:مقاله_تصادفی</item>
+        <item>جستجو,http://wiki.occc.ir/index.php?title=ویژه:جستجو</item>
     </string-array>
     
     <!-- Nav Drawer List Item Icons -->
@@ -61,5 +71,4 @@
     <string name="wiki_search_hint">Search on wiki</string>
     <string name="search_button">Search</string>
     <string name="is_test">Is Test</string>
-    
 </resources>

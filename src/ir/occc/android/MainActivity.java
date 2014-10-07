@@ -130,6 +130,8 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 		prepareNewsItemMenu();
 		// Wiki
 		prepareWikiItemMenu();
+		// IrcDemo
+		prepareIrcDemoItemMenu();
 		// Photos
 		/*navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
 		// Communities, Will add a counter here
@@ -147,10 +149,10 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 		navLeftAdapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
 		mDrawerListLeft.setAdapter(navLeftAdapter);
 
-		ArrayList<String> rightNavDrawerItems = new ArrayList<String>();
+		/*ArrayList<String> rightNavDrawerItems = new ArrayList<String>();
 		rightNavDrawerItems.addAll(Arrays.asList(getResources().getStringArray(R.array.rss_feed_items)));
 		navRightAdapter = new RightNavDrawerListAdapter(getApplicationContext(), rightNavDrawerItems); 
-		mDrawerListRight.setAdapter(navRightAdapter);
+		mDrawerListRight.setAdapter(navRightAdapter);*/
 
 		// enabling action bar app icon and behaving it as toggle button
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -198,7 +200,10 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 
 	private void prepareWikiItemMenu() {
 		
-		mDrawerListRight.setAdapter(null);
+		/*ArrayList<String> rightNavDrawerItems = new ArrayList<String>();
+		rightNavDrawerItems.add(null);
+		navRightAdapter = new RightNavDrawerListAdapter(getApplicationContext(), rightNavDrawerItems); 
+		mDrawerListRight.setAdapter(navRightAdapter);*/
 		
 		Boolean isVisible = false;
 		try {
@@ -232,6 +237,10 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1), isVisible, String.valueOf(unreadArticle)));
 	}
+	
+	private void prepareIrcDemoItemMenu() {
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
+	}
 
 	private int getNewWikiArticleCount() {
 		// TODO get new article from wiki
@@ -244,9 +253,17 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 		Editor editor = sharedPreferences.edit();
 
 		editor.putBoolean("isTest", isTest);
+
+		CheckBox chbIsTest = (CheckBox)findViewById(R.id.checkBoxTestValues);
+		chbIsTest.setVisibility(View.GONE);
+		ArrayList<String> rightNavDrawerItems = new ArrayList<String>();
 		
 		switch (position) {
 		case 0:
+			rightNavDrawerItems.addAll(Arrays.asList(getResources().getStringArray(R.array.rss_feed_items)));
+			navRightAdapter = new RightNavDrawerListAdapter(getApplicationContext(), rightNavDrawerItems); 
+			mDrawerListRight.setAdapter(navRightAdapter);
+			
 			fragment = new NewsFragment();
 			activeFragment = Fragments.News;
 			
@@ -263,6 +280,10 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 			fragment.setArguments(data);
 			break;
 		case 1:
+			rightNavDrawerItems.addAll(Arrays.asList(getResources().getStringArray(R.array.wiki_link_items)));
+			navRightAdapter = new RightNavDrawerListAdapter(getApplicationContext(), rightNavDrawerItems); 
+			mDrawerListRight.setAdapter(navRightAdapter);
+			
 			fragment = new WikiFragment();
 			activeFragment = Fragments.Wiki;
 			
@@ -272,10 +293,15 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 			navDrawerItems.get(1).setCounterVisibility(false);
 			navDrawerItems.get(1).setCount("0");
 			//            fragment = new FindPeopleFragment();
+			
+			chbIsTest.setVisibility(View.VISIBLE);
 			break;
 		case 2:
-			//            fragment = new PhotosFragment();
-			//			  activeFragment = Fragments.Photos;
+			mDrawerListRight.setAdapter(null);
+			
+			fragment = new IrcDemoFragment();
+			activeFragment = Fragments.IrcDemo;
+			
 			break;
 		case 3:
 			//			fragment = new WikiFragment();
@@ -351,6 +377,9 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 			} else if (fragment instanceof WikiFragment) {
 				WikiFragment wikiFragment = (WikiFragment)fragment;
 				wikiFragment.refresh(QueryType.WikiTitle, " ");
+			} else if (fragment instanceof IrcDemoFragment) {
+				IrcDemoFragment ircDemoFragment = (IrcDemoFragment)fragment;
+				ircDemoFragment.refresh();
 			}
 			return true;
 		default:

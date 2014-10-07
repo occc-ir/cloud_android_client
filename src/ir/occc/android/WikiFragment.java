@@ -157,9 +157,13 @@ public class WikiFragment extends BaseV4Fragment implements OnItemClickListener 
 	}
 
 	private void viewNoContent(String text) {
-		String html;
-		html = "<html><body dir='rtl'><div style='text-align:center'>"+ text +"</div></body></html>";
-		webView.loadDataWithBaseURL("about:blank", html, "text/html", "utf-8", null);
+
+		StringBuilder sbMessage = new StringBuilder();
+		sbMessage.append("<html><body dir='rtl'><div style='text-align:center'>");
+		sbMessage.append(text);
+		sbMessage.append("</div></body></html>");
+		
+		webView.loadDataWithBaseURL("about:blank", sbMessage.toString(), "text/html", "utf-8", null);
 		webView.setVisibility(View.VISIBLE);
 
 		// Handle pages list view on searching again

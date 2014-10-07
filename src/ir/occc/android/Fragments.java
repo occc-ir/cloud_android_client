@@ -1,7 +1,7 @@
 package ir.occc.android;
 
 public enum Fragments {
-	Wiki, News, Forum;
+	Wiki, News, Forum, IrcDemo;
 	
 	public static Fragments toFragments(String value) {
 		try {

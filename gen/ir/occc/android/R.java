@@ -23,13 +23,16 @@ public final class R {
          <item>@drawable/ic_pages</item> 
          <item>@drawable/ic_whats_hot</item> 
          */
-        public static final int nav_drawer_icons=0x7f0d0002;
+        public static final int nav_drawer_icons=0x7f0d0003;
         /**  Nav Drawer Menu Items 
          */
         public static final int nav_drawer_items=0x7f0d0000;
         /**  RSS Feed Right Nav Drawer Menu Items 
          */
         public static final int rss_feed_items=0x7f0d0001;
+        /**  Wiki Link Right Nav Drawer Menu Items 
+         */
+        public static final int wiki_link_items=0x7f0d0002;
     }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
@@ -1109,7 +1112,7 @@ containing a value of this type.
         public static final int list_selector=0x7f02005f;
     }
     public static final class id {
-        public static final int LinearLayout1=0x7f080045;
+        public static final int LinearLayout1=0x7f080046;
         public static final int action_bar=0x7f08001c;
         public static final int action_bar_activity_content=0x7f080015;
         public static final int action_bar_container=0x7f08001b;
@@ -1147,7 +1150,7 @@ containing a value of this type.
         public static final int ifRoom=0x7f08000a;
         public static final int image=0x7f080027;
         public static final int listMode=0x7f080001;
-        public static final int listView=0x7f080046;
+        public static final int listView=0x7f080047;
         public static final int list_item=0x7f080029;
         public static final int list_slidermenuleft=0x7f08003e;
         public static final int list_slidermenuright=0x7f080043;
@@ -1159,11 +1162,11 @@ containing a value of this type.
         public static final int postPubDateLabel=0x7f080051;
         public static final int postThumb=0x7f08004f;
         public static final int postTitleLabel=0x7f080050;
-        public static final int progressBar1=0x7f080047;
+        public static final int progressBar1=0x7f080048;
         public static final int progress_circular=0x7f080018;
         public static final int progress_horizontal=0x7f080019;
         public static final int radio=0x7f08002f;
-        public static final int scrollView1=0x7f080048;
+        public static final int scrollView1=0x7f080049;
         public static final int searchViewMain=0x7f080041;
         public static final int search_badge=0x7f080032;
         public static final int search_bar=0x7f080031;
@@ -1186,12 +1189,12 @@ containing a value of this type.
         public static final int tableRow1=0x7f080042;
         public static final int title=0x7f08002b;
         public static final int top_action_bar=0x7f080020;
-        public static final int tvNewsPubDate=0x7f08004a;
-        public static final int tvTitle=0x7f080049;
+        public static final int tvNewsPubDate=0x7f08004b;
+        public static final int tvTitle=0x7f08004a;
         public static final int txtLabel=0x7f080044;
         public static final int up=0x7f080021;
         public static final int useLogo=0x7f080003;
-        public static final int webViewContent=0x7f08004b;
+        public static final int webViewContent=0x7f080045;
         public static final int webViewWiki=0x7f08004d;
         public static final int withText=0x7f08000c;
     }
@@ -1247,17 +1250,18 @@ containing a value of this type.
         public static final int abc_simple_decor=0x7f030017;
         public static final int activity_main=0x7f030018;
         public static final int fragment_forum=0x7f030019;
-        public static final int fragment_main=0x7f03001a;
-        public static final int fragment_news=0x7f03001b;
-        public static final int fragment_news_content=0x7f03001c;
-        public static final int fragment_news_dashboard=0x7f03001d;
-        public static final int fragment_wiki=0x7f03001e;
-        public static final int fragment_wiki_content=0x7f03001f;
-        public static final int list_item_navigator=0x7f030020;
-        public static final int list_item_navigator_search=0x7f030021;
-        public static final int list_item_news_rss=0x7f030022;
-        public static final int list_item_wiki_page=0x7f030023;
-        public static final int support_simple_spinner_dropdown_item=0x7f030024;
+        public static final int fragment_irc_demo=0x7f03001a;
+        public static final int fragment_main=0x7f03001b;
+        public static final int fragment_news=0x7f03001c;
+        public static final int fragment_news_content=0x7f03001d;
+        public static final int fragment_news_dashboard=0x7f03001e;
+        public static final int fragment_wiki=0x7f03001f;
+        public static final int fragment_wiki_content=0x7f030020;
+        public static final int list_item_navigator=0x7f030021;
+        public static final int list_item_navigator_search=0x7f030022;
+        public static final int list_item_news_rss=0x7f030023;
+        public static final int list_item_wiki_page=0x7f030024;
+        public static final int support_simple_spinner_dropdown_item=0x7f030025;
     }
     public static final class menu {
         public static final int main=0x7f0e0000;
