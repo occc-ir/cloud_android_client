@@ -5,6 +5,7 @@ import ir.occc.android.adapter.RightNavDrawerListAdapter;
 import ir.occc.android.common.Common;
 import ir.occc.android.common.Fragments;
 import ir.occc.android.common.QueryType;
+import ir.occc.android.feedback.FeedbackFragment;
 import ir.occc.android.irc.IrcDemoFragment;
 import ir.occc.android.model.NavDrawerItem;
 import ir.occc.android.rss.NewsContentFragment;
@@ -148,6 +149,8 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 		// What's hot, We  will add a counter here
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
 		 */
+		// Feedback
+		//prepareFeedbackItemMenu();
 
 		// Recycle the typed array
 		navMenuIcons.recycle();
@@ -193,7 +196,7 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 		mSearchView.setOnQueryTextListener(this);
 		mSearchView.requestFocus();
 	}
-	
+
 	@Override
 	public boolean onSearchRequested() {
 		Log.d("oCCc", "Search Requested!");
@@ -247,6 +250,10 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 	
 	private void prepareIrcDemoItemMenu() {
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
+	}
+	
+	private void prepareFeedbackItemMenu() {
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));		
 	}
 
 	private int getNewWikiArticleCount() {
@@ -311,8 +318,8 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 			
 			break;
 		case 3:
-			//			fragment = new WikiFragment();
-			//			  activeFragment = Fragments.Wiki;
+			fragment = new FeedbackFragment();
+			activeFragment = Fragments.Feedback;
 			break;
 		case 4:
 			//            fragment = new PagesFragment();
@@ -385,6 +392,9 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 				WikiFragment wikiFragment = (WikiFragment)fragment;
 				wikiFragment.refresh(QueryType.WikiTitle, " ");
 			} else if (fragment instanceof IrcDemoFragment) {
+				IrcDemoFragment ircDemoFragment = (IrcDemoFragment)fragment;
+				ircDemoFragment.refresh();
+			} else if (fragment instanceof FeedbackFragment) {
 				IrcDemoFragment ircDemoFragment = (IrcDemoFragment)fragment;
 				ircDemoFragment.refresh();
 			}
