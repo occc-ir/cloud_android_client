@@ -27,6 +27,14 @@
         <item>Wiki</item>
         <item>Irc Demo</item>
         <item>Forum</item>
+        <item>Feedback</item>
+    </string-array>
+    
+    <!-- Feedback spinner Items -->
+    <string-array name="feedback_items">
+        <item >ایده</item>
+        <item >خطا</item>
+        <item >نظر</item>
     </string-array>
     
     <!-- RSS Feed Right Nav Drawer Menu Items -->
@@ -51,9 +59,10 @@
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
         <item>@drawable/ic_home</item>
+        <item>@drawable/ic_communities</item>
+        <item>@drawable/ic_irc_protocol</item>
 <!--         <item>@drawable/ic_people</item> -->
 <!--         <item>@drawable/ic_photos</item> -->
-        <item>@drawable/ic_communities</item>
 <!--         <item>@drawable/ic_pages</item> -->
 <!--         <item>@drawable/ic_whats_hot</item> -->
     </array>
@@ -71,4 +80,5 @@
     <string name="wiki_search_hint">Search on wiki</string>
     <string name="search_button">Search</string>
     <string name="is_test">Is Test</string>
+    <string name="submit">Submit</string>
 </resources>
