@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <!-- <item >Home</item>
+        <item >Find People</item>
+        <item >Photos</item>
+        <item >Communities</item>
+        <item >What\'s Hot</item> -->
+        <item>News</item>
+        <item>Wiki</item>
+        <item>IRC Web</item>
+        <item>IRC Console</item>
+        <item>Forum</item>
+        <item>Feedback</item>
+    </string-array>
+    
+    <!-- Feedback spinner Items -->
+    <string-array name="feedback_items">
+        <item >ایده</item>
+        <item >خطا</item>
+        <item >نظر</item>
+    </string-array>
+    
+    <!-- RSS Feed Right Nav Drawer Menu Items -->
+    <string-array name="rss_feed_items">
+        <item>Test,http://172.18.4.163:8045/news-archive.xml</item>
+        <item>آرشیو اخبار,http://occc.ir/index.php/media-archive/news-archive?format=feed&amp;type=rss</item>
+        <item>رصدخانه,http://news.occc.ir/?method=feed&amp;type=rss2</item>
+        <item>پرسش و پاسخ,http://forum.occc.ir/index.php?qa=feed&amp;qa_1=qa.rss</item>
+        <item>آرشیو خبرنامه,http://occc.ir/index.php/2014&#8211;04&#8211;27&#8211;19&#8211;47&#8211;59/newsleter-archive?format=feed&amp;type=rss</item>
+        <item>آرشیو جلسات,http://occc.ir/index.php/2014&#8211;04&#8211;27&#8211;19&#8211;44&#8211;41/meetingsarchive?format=feed&amp;type=rss</item>
+    </string-array>
+    
+    <!-- Wiki Link Right Nav Drawer Menu Items -->
+    <string-array name="wiki_link_items">
+        <item>رایانش ابری چیست؟,http://wiki.occc.ir/index.php?title=Cloud_Computing</item>
+        <item>آخرین مطالب,http://wiki.occc.ir/index.php?title=ویژه:تغییرات_اخیر</item>
+        <item>مطالب تصادفی,http://wiki.occc.ir/index.php?title=ویژه:مقاله_تصادفی</item>
+        <item>جستجو,http://wiki.occc.ir/index.php?title=ویژه:جستجو</item>
+    </string-array>
+    
+    <!-- Nav Drawer List Item Icons -->
+    <!-- Keep them in order as the titles are in -->
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_communities</item>
+        <item>@drawable/ic_irc_protocol</item>
+        <item>@drawable/ic_irc_protocol</item>
+<!--         <item>@drawable/ic_people</item> -->
+<!--         <item>@drawable/ic_photos</item> -->
+<!--         <item>@drawable/ic_pages</item> -->
+<!--         <item>@drawable/ic_whats_hot</item> -->
+    </array>
+    
+    <!-- ======== Yaaic IRC Arrays ======== -->
+    <string-array name="fontsize_labels" translatable="false">
+        <item>8px</item>
+        <item>9px</item>
+        <item>10px</item>
+        <item>11px</item>
+        <item>12px</item>
+        <item>13px</item>
+        <item>14px</item>
+        <item>15px</item>
+        <item>16px</item>
+        <item>17px</item>
+        <item>18px</item>
+        <item>19px</item>
+        <item>20px</item>
+    </string-array>
+    <string-array name="fontsize_values" translatable="false">
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+    </string-array>
+    <string-array name="reconnect_interval_labels">
+        <item>@string/minute_1</item>
+        <item>@string/minutes_5</item>
+        <item>@string/minutes_10</item>
+        <item>@string/minutes_15</item>
+        <item>@string/minutes_20</item>
+        <item>@string/minutes_30</item>
+    </string-array>
+    <string-array name="reconnect_interval_values" translatable="false">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+</resources>
