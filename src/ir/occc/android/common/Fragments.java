@@ -5,7 +5,7 @@ package ir.occc.android.common;
  * Fragments enumeration
  */
 public enum Fragments {
-	Wiki, News, Forum, IrcDemo, Feedback;
+	Wiki, News, Forum, IrcWeb, IrcConsole, Feedback;
 	
 	/** Convert fragment string to Fragments enumeration
 	 * @param value Fragment string which want to convert
