@@ -1,5 +1,12 @@
 package ir.occc.android;
 
+import ir.occc.android.R;
+import ir.occc.android.R.array;
+import ir.occc.android.R.drawable;
+import ir.occc.android.R.id;
+import ir.occc.android.R.layout;
+import ir.occc.android.R.menu;
+import ir.occc.android.R.string;
 import ir.occc.android.adapter.NavDrawerListAdapter;
 import ir.occc.android.adapter.RightNavDrawerListAdapter;
 import ir.occc.android.common.Common;
@@ -7,7 +14,11 @@ import ir.occc.android.common.Fragments;
 import ir.occc.android.common.QueryType;
 import ir.occc.android.feedback.FeedbackFragment;
 import ir.occc.android.irc.IrcDemoFragment;
+import ir.occc.android.irc.Yaaic;
+import ir.occc.android.irc.activity.AboutActivity;
 import ir.occc.android.model.NavDrawerItem;
+import ir.occc.android.model.Server;
+import ir.occc.android.model.Status;
 import ir.occc.android.rss.NewsContentFragment;
 import ir.occc.android.rss.NewsFragment;
 import ir.occc.android.wiki.WikiFragment;
@@ -15,6 +26,7 @@ import ir.occc.android.wiki.WikiFragment;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
@@ -138,17 +150,10 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 		prepareNewsItemMenu();
 		// Wiki
 		prepareWikiItemMenu();
-		// IrcDemo
-		prepareIrcDemoItemMenu();
-		// Photos
-		/*navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
-		// Communities, Will add a counter here
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, "22"));
-		// Pages
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
-		// What's hot, We  will add a counter here
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-		 */
+		// IRC Demo
+		prepareIrcWebItemMenu();
+		// IRC Console
+		prepareIrcConsoleItemMenu();
 		// Feedback
 		//prepareFeedbackItemMenu();
 
@@ -248,13 +253,17 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1), isVisible, String.valueOf(unreadArticle)));
 	}
 	
-	private void prepareIrcDemoItemMenu() {
+	private void prepareIrcWebItemMenu() {
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
 	}
 	
-	private void prepareFeedbackItemMenu() {
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));		
+	private void prepareIrcConsoleItemMenu() {
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
 	}
+	
+	/*private void prepareFeedbackItemMenu() {
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));		
+	}*/
 
 	private int getNewWikiArticleCount() {
 		// TODO get new article from wiki
@@ -314,16 +323,15 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 			mDrawerListRight.setAdapter(null);
 			
 			fragment = new IrcDemoFragment();
-			activeFragment = Fragments.IrcDemo;
+			activeFragment = Fragments.IrcWeb;
 			
 			break;
 		case 3:
-			fragment = new FeedbackFragment();
-			activeFragment = Fragments.Feedback;
+			startActivity(new Intent(this, ServersActivity.class));
 			break;
 		case 4:
-			//            fragment = new PagesFragment();
-			//			  activeFragment = Fragments.Pages;
+			/*fragment = new FeedbackFragment();
+			activeFragment = Fragments.Feedback;*/
 			break;
 		case 5:
 			//            fragment = new WhatsHotFragment();
@@ -355,7 +363,14 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
+		switch (activeFragment) {
+		case IrcConsole:
+			getMenuInflater().inflate(R.menu.irc_servers, menu);
+			break;
+		default:
+			getMenuInflater().inflate(R.menu.main, menu);	
+			break;
+		}
 		return true;
 	}
 
@@ -398,6 +413,20 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 				IrcDemoFragment ircDemoFragment = (IrcDemoFragment)fragment;
 				ircDemoFragment.refresh();
 			}
+			return true;
+		case R.id.disconnect_all:
+                /*ArrayList<Server> mServers = Yaaic.getInstance().getServersAsArrayList();
+                for (Server server : mServers) {
+                    if (binder.getService().hasConnection(server.getId())) {
+                        server.setStatus(Status.DISCONNECTED);
+                        server.setMayReconnect(false);
+                        binder.getService().getConnection(server.getId()).quitServer();
+                    }
+                }*/
+                // ugly
+                //binder.getService().stopForegroundCompat(R.string.app_name);
+		case R.id.about:
+			startActivity(new Intent(this, AboutActivity.class));
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
