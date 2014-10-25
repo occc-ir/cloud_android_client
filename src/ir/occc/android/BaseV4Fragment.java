@@ -3,7 +3,6 @@ package ir.occc.android;
 import ir.occc.android.common.Common;
 import ir.occc.android.common.QueryType;
 import ir.occc.android.rss.RssService;
-import ir.occc.android.wiki.WikiService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,43 +18,25 @@ public class BaseV4Fragment extends Fragment {
 	/**
 	 * Start a service
 	 * @param serviceClass The service class which want to start
-	 * @param command The name of command
-	 * @param titles String array of title which want to get its content from WIKI service
+	 * @param intent Intent that contain service requirements
 	 */
-	protected void startService(Class<?> serviceClass, Integer command, String[] titles) {
+	protected void startService(Class<?> serviceClass, Intent intent) {
 		if (serviceClass == null) {
 			return;
 		}
 		
-		Intent intent = new Intent(getActivity(), serviceClass);
+		if (intent == null) {
+			intent = new Intent(getActivity(), serviceClass);
+		}
 		intent.putExtra(Common.RECEIVER, resultReceiver);
-
-		if (command != null) {
-			intent.putExtra(Common.COMMAND, command);			
-		}
-		if (titles != null) {
-			intent.putExtra(WikiService.WIKI_TITLES, titles);	
-		}
-		
-		getActivity().startService(intent);
-	}
-	
-	protected void startService(Class<?> serviceClass, Integer command, String value) {
-		if (serviceClass == null) {
-			return;
-		}
-		
-		Intent intent = new Intent(getActivity(), serviceClass);
-		intent.putExtra(Common.RECEIVER, resultReceiver);
-
-		if (serviceClass == RssService.class) {
-			intent.putExtra(Common.RSS_LINK, value);
-		}
 
 		getActivity().stopService(intent);
 		getActivity().startService(intent);
 	}
 	
+	/** Stop running service
+	 * @param serviceClass The service class which want to start
+	 */
 	protected void stopService(Class<?> serviceClass) {
 		Intent intent = new Intent(getActivity(), serviceClass);
 		
