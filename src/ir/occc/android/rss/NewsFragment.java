@@ -8,6 +8,7 @@ import ir.occc.android.model.RssItem;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
@@ -82,7 +83,10 @@ public class NewsFragment extends BaseV4Fragment implements OnItemClickListener 
 			tv.setVisibility(View.GONE);
 		progressBar.setVisibility(View.VISIBLE);
 		
-		startService(RssService.class, null, rssLink);
+		Intent intent = new Intent(getActivity(), RssService.class);
+		intent.putExtra(Common.RSS_LINK, rssLink);
+		
+		startService(RssService.class, intent);
 	}
 
 	@SuppressWarnings("unchecked")
