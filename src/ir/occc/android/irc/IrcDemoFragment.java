@@ -2,6 +2,7 @@ package ir.occc.android.irc;
 
 import ir.occc.android.BaseV4Fragment;
 import ir.occc.android.R;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +22,14 @@ public class IrcDemoFragment extends BaseV4Fragment {
 		super.onCreate(savedInstanceState);
 	}
 
+	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
 		rootView = inflater.inflate(R.layout.fragment_irc_demo, container, false);
 		webView = (WebView)rootView.findViewById(R.id.webViewContent);
+		webView.getSettings().setJavaScriptEnabled(true);
 		
 		webView.setWebViewClient(new WebViewClient() {
 			@Override
