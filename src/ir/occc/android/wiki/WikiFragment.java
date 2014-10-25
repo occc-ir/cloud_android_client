@@ -4,6 +4,7 @@ import info.bliki.api.Page;
 import ir.occc.android.BaseV4Fragment;
 import ir.occc.android.R;
 import ir.occc.android.adapter.WikiPageAdapter;
+import ir.occc.android.common.Common;
 import ir.occc.android.common.QueryType;
 import ir.occc.android.model.WikiPageItem;
 import ir.occc.android.rss.RssService;
@@ -11,6 +12,7 @@ import ir.occc.android.rss.RssService;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -87,10 +89,11 @@ public class WikiFragment extends BaseV4Fragment implements OnItemClickListener 
 		
 		switch (type) {
 		case WikiTitle:
-			startService(new String[] { query });
+			startService(query);
 			break;
 			
 		case WikiContent:
+			startService(query);
 			break;
 			
 		default:
@@ -98,14 +101,19 @@ public class WikiFragment extends BaseV4Fragment implements OnItemClickListener 
 		}
 	}
 
-	private void startService(String[] titles) {
+	private void startService(String title) {
 		mainLayout.setGravity(Gravity.CENTER);
 		progressBar.setVisibility(View.VISIBLE);
 		webView.setVisibility(View.GONE);
 		if (lvPages != null) {
 			lvPages.setVisibility(View.GONE);
 		}
-		startService(WikiService.class, WikiService.CMD_WIKI_SEARCH_PAGE, titles);
+
+		Intent intent = new Intent(getActivity(), WikiService.class);
+		intent.putExtra(Common.COMMAND, WikiService.CMD_WIKI_SEARCH_PAGE);			
+		intent.putExtra(WikiService.WIKI_TITLE, title);
+		
+		startService(WikiService.class, intent);
 	}
 
 	protected void receivedResult(int resultCode, Bundle resultData) {
@@ -159,7 +167,11 @@ public class WikiFragment extends BaseV4Fragment implements OnItemClickListener 
 			}
 		}
 	}
-
+	
+	private void viewSpecialPage() {
+		
+	}
+	
 	private void viewNoContent(String text) {
 
 		StringBuilder sbMessage = new StringBuilder();
