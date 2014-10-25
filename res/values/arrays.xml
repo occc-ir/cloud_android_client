@@ -34,7 +34,10 @@
     
     <!-- Wiki Link Right Nav Drawer Menu Items -->
     <string-array name="wiki_link_items">
-        <item>رایانش ابری چیست؟,http://wiki.occc.ir/index.php?title=Cloud_Computing</item>
+        <item>صفحه اصلی,صفحهٔ اصلی</item>
+        <item>رایانش ابری چیست؟,رایانش ابری</item>
+        <item>تغییرات اخیر,http://wiki.occc.ir/index.php?title=%D9%88%DB%8C%DA%98%D9%87:%D8%AA%D8%BA%DB%8C%DB%8C%D8%B1%D8%A7%D8%AA_%D8%A7%D8%AE%DB%8C%D8%B1</item>
+        <item>مطالب تصادفی,http://wiki.occc.ir/index.php?title=%D9%88%DB%8C%DA%98%D9%87:%D8%B5%D9%81%D8%AD%D9%87%D9%94_%D8%AA%D8%B5%D8%A7%D8%AF%D9%81%DB%8C</item>
         <item>آخرین مطالب,http://wiki.occc.ir/index.php?title=ویژه:تغییرات_اخیر</item>
         <item>مطالب تصادفی,http://wiki.occc.ir/index.php?title=ویژه:مقاله_تصادفی</item>
         <item>جستجو,http://wiki.occc.ir/index.php?title=ویژه:جستجو</item>
