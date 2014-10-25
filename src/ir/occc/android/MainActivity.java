@@ -1,12 +1,5 @@
 package ir.occc.android;
 
-import ir.occc.android.R;
-import ir.occc.android.R.array;
-import ir.occc.android.R.drawable;
-import ir.occc.android.R.id;
-import ir.occc.android.R.layout;
-import ir.occc.android.R.menu;
-import ir.occc.android.R.string;
 import ir.occc.android.adapter.NavDrawerListAdapter;
 import ir.occc.android.adapter.RightNavDrawerListAdapter;
 import ir.occc.android.common.Common;
@@ -14,13 +7,11 @@ import ir.occc.android.common.Fragments;
 import ir.occc.android.common.QueryType;
 import ir.occc.android.feedback.FeedbackFragment;
 import ir.occc.android.irc.IrcDemoFragment;
-import ir.occc.android.irc.Yaaic;
 import ir.occc.android.irc.activity.AboutActivity;
 import ir.occc.android.model.NavDrawerItem;
-import ir.occc.android.model.Server;
-import ir.occc.android.model.Status;
 import ir.occc.android.rss.NewsContentFragment;
 import ir.occc.android.rss.NewsFragment;
+import ir.occc.android.wiki.WikiContentFragment;
 import ir.occc.android.wiki.WikiFragment;
 
 import java.util.ArrayList;
@@ -515,6 +506,18 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 				
 				mDrawerLayout.closeDrawer(mDrawerRight);
 			}
+			else if (fragment instanceof WikiFragment || fragment instanceof WikiContentFragment) {
+
+				TextView tv = (TextView)view.findViewById(R.id.title);
+				String title = tv.getTag().toString();
+				
+				if (fragment instanceof WikiFragment) {
+					WikiFragment wikiFragment = (WikiFragment)fragment;
+					wikiFragment.refresh(QueryType.WikiTitle, title);
+				}
+				
+				mDrawerLayout.closeDrawer(mDrawerRight);
+			}
 		}
 
 	}
@@ -555,7 +558,7 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 
 	private void searchInNews(String query) {
 		mSearchView.clearFocus();
-		
+		mDrawerLayout.closeDrawer(mDrawerRight);
 		/*if (fragment instanceof NewsFragment) {
 			NewsFragment newsFragment = (NewsFragment)fragment;
 			newsFragment.refresh();
@@ -564,6 +567,7 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 
 	private void searchInWiki(String query) {
 		mSearchView.clearFocus();
+		mDrawerLayout.closeDrawer(mDrawerRight);
 		
 		if (fragment instanceof WikiFragment) {
 			WikiFragment wikiFragment = (WikiFragment)fragment;
@@ -574,6 +578,6 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 				}
 			}
 			wikiFragment.refresh(QueryType.WikiTitle, query);
-		}
+		}		
 	}
 }
