@@ -25,5 +25,9 @@ public class Common {
 	 * RSS link key name.
 	 */
 	public static final String RSS_LINK = "rss_link";
+	/**
+	 * Wiki link key name.
+	 */
+	public static final String WIKI_LINK = "wiki_link";
 	
 }
