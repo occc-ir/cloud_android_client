@@ -5,6 +5,7 @@ import ir.occc.android.R;
 import ir.occc.android.adapter.RssAdapter;
 import ir.occc.android.common.Common;
 import ir.occc.android.model.RssItem;
+import ir.occc.android.wiki.WikiService;
 
 import java.util.List;
 
@@ -72,13 +73,15 @@ public class NewsFragment extends BaseV4Fragment implements OnItemClickListener 
 	}
 
 	public void refresh(String rssLink) {
-		this.rssLink = rssLink;		
+		getFragmentManager().popBackStack();
+		this.rssLink = rssLink;
 		startService();
 	}
 
 	private void startService() {
 		// clear
 		listView.setAdapter(null);
+		stopService(WikiService.class);
 		if (tv != null)
 			tv.setVisibility(View.GONE);
 		progressBar.setVisibility(View.VISIBLE);
@@ -136,7 +139,7 @@ public class NewsFragment extends BaseV4Fragment implements OnItemClickListener 
 
 		FragmentTransaction transaction = this.getFragmentManager().beginTransaction();
 		transaction.replace(R.id.frame_container, newsContentFragment);
-		transaction.addToBackStack(null);
+		transaction.addToBackStack(String.valueOf(this.getId()));
 		transaction.commit();
 
 		/*Uri uri = Uri.parse(item.getLink());
