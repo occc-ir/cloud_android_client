@@ -10,6 +10,7 @@ import ir.occc.android.model.WikiPageItem;
 import ir.occc.android.rss.RssService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.content.Intent;
@@ -40,6 +41,7 @@ public class WikiFragment extends BaseV4Fragment implements OnItemClickListener 
 	private ListView lvPages;
 	private QueryType queryType;
 	private String queryText;
+	public String wikiTitle;
 
 	public WikiFragment(){}
 	
@@ -58,6 +60,12 @@ public class WikiFragment extends BaseV4Fragment implements OnItemClickListener 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}*/
+
+		// Show Main Page of wiki
+		wikiTitle = Arrays.asList(getResources().getStringArray(R.array.wiki_link_items)).get(0);
+		int idx = wikiTitle.indexOf(',');
+		wikiTitle = wikiTitle.substring(idx + 1);
+		this.queryType = QueryType.WikiTitle;
 	}
 
 	@Override
@@ -68,17 +76,14 @@ public class WikiFragment extends BaseV4Fragment implements OnItemClickListener 
 		progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar1);
 		webView = (WebView)rootView.findViewById(R.id.webViewWiki);
 		mainLayout = ((LinearLayout)webView.getParent());
-
-		//startService(new String[] {"cloudsim", "کلادسیم"});
-		this.queryType = QueryType.WikiTitle;
+		
+		search(queryType, wikiTitle);
 
 		return rootView;
 	}
-
+	
 	public void refresh(QueryType type, String query) {
-		//startService(new String[] {"cloudsim", "کلادسیم"});
 		stopService(WikiService.class);
-		Log.d("oCCc", "query text is: " + 	queryText);
 		search(queryType, query);
 	}
 	

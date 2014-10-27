@@ -396,7 +396,12 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 				newsContentFragment.refresh();
 			} else if (fragment instanceof WikiFragment) {
 				WikiFragment wikiFragment = (WikiFragment)fragment;
-				wikiFragment.refresh(QueryType.WikiTitle, " ");
+				
+				wikiFragment.wikiTitle = Arrays.asList(getResources().getStringArray(R.array.wiki_link_items)).get(0);
+				int idx = wikiFragment.wikiTitle.indexOf(',');
+				wikiFragment.wikiTitle = wikiFragment.wikiTitle.substring(idx + 1);
+				
+				wikiFragment.refresh(QueryType.WikiTitle, wikiFragment.wikiTitle);
 			} else if (fragment instanceof IrcDemoFragment) {
 				IrcDemoFragment ircDemoFragment = (IrcDemoFragment)fragment;
 				ircDemoFragment.refresh();
@@ -577,7 +582,9 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 					//this.getSupportFragmentManager().popBackStackImmediate();
 				}
 			}
-			wikiFragment.refresh(QueryType.WikiTitle, query);
+			wikiFragment.wikiTitle = query;
+			// it doesn't need call "refresh" method, it is called on "onCreateView".
+			//wikiFragment.refresh(QueryType.WikiTitle, query);
 		}		
 	}
 }

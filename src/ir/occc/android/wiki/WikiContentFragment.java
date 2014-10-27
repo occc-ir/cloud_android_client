@@ -70,6 +70,11 @@ public class WikiContentFragment extends Fragment {
 		//WikiModel wikiModel = new WikiModel("http://wiki.occc.ir/wiki/${image}", "http://wiki.occc.ir/wiki/${title}");
 		WikiModel wikiModel = new WikiModel("${image}", "${title}");
 		content = wikiModel.render(content);
+		
+		StringBuilder sbMessage = new StringBuilder();
+		sbMessage.append("<html><body dir='rtl'><div style='text-align:center'>");
+		sbMessage.append(content);
+		sbMessage.append("</div></body></html>");
 
 		wvContent.loadDataWithBaseURL("about:blank", content, "text/html", "utf-8", null);
 		//wvContent.loadData("<html><head>><meta HTTP-EQUIV='Content-Type' content='text/html; charset=utf-8' /></head><body dir='rtl'>" + description +"</body></html>", "text/html", "utf-8");
