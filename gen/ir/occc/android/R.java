@@ -1341,7 +1341,7 @@ containing a value of this type.
     }
     public static final class id {
         public static final int LinearLayout1=0x7f06003f;
-        public static final int about=0x7f06007c;
+        public static final int about=0x7f06007e;
         public static final int about_irclink=0x7f060013;
         public static final int abs__action_bar=0x7f060026;
         public static final int abs__action_bar_container=0x7f060025;
@@ -1383,8 +1383,8 @@ containing a value of this type.
         public static final int abs__title=0x7f06001f;
         public static final int abs__titleDivider=0x7f060020;
         public static final int abs__up=0x7f06000b;
-        public static final int action_refresh=0x7f06007d;
-        public static final int action_settings=0x7f06007e;
+        public static final int action_refresh=0x7f06007f;
+        public static final int action_settings=0x7f060080;
         public static final int add=0x7f060052;
         public static final int alias=0x7f06005c;
         public static final int aliases=0x7f06004b;
@@ -1396,13 +1396,13 @@ containing a value of this type.
         public static final int channels=0x7f06004f;
         public static final int charset=0x7f060051;
         public static final int checkBoxTestValues=0x7f06003b;
-        public static final int close=0x7f060078;
+        public static final int close=0x7f06007a;
         public static final int command=0x7f060067;
         public static final int commands=0x7f060050;
         public static final int counter=0x7f060071;
         public static final int disableHome=0x7f060009;
-        public static final int disconnect=0x7f060079;
-        public static final int disconnect_all=0x7f06007b;
+        public static final int disconnect=0x7f06007b;
+        public static final int disconnect_all=0x7f06007d;
         public static final int drawer_layout=0x7f060037;
         public static final int edit_query=0x7f06002b;
         public static final int etFeedback=0x7f060041;
@@ -1414,6 +1414,7 @@ containing a value of this type.
         public static final int input=0x7f06006a;
         public static final int join=0x7f06006c;
         public static final int label=0x7f06005b;
+        public static final int listItemWikiRelativeLayout=0x7f060076;
         public static final int listMode=0x7f060002;
         public static final int listView=0x7f060055;
         public static final int list_slidermenuleft=0x7f060039;
@@ -1429,21 +1430,22 @@ containing a value of this type.
         public static final int pager=0x7f060069;
         public static final int password=0x7f060047;
         public static final int port=0x7f060046;
-        public static final int postContentLabel=0x7f060075;
-        public static final int postPubDateLabel=0x7f060074;
-        public static final int postThumb=0x7f060072;
-        public static final int postTitleLabel=0x7f060073;
+        public static final int postContentLabel=0x7f060077;
+        public static final int postPubDateLabel=0x7f060075;
+        public static final int postThumb=0x7f060073;
+        public static final int postTitleLabel=0x7f060074;
         public static final int progressBar1=0x7f060056;
         public static final int realname=0x7f06004d;
+        public static final int resultTitle=0x7f060072;
         public static final int sasl_checkbox=0x7f060061;
         public static final int sasl_label_password=0x7f060064;
         public static final int sasl_label_username=0x7f060062;
         public static final int sasl_password=0x7f060065;
         public static final int sasl_username=0x7f060063;
-        public static final int save=0x7f060076;
+        public static final int save=0x7f060078;
         public static final int scrollView1=0x7f060057;
         public static final int searchViewMain=0x7f06003c;
-        public static final int settings=0x7f06007a;
+        public static final int settings=0x7f06007c;
         public static final int showCustom=0x7f060008;
         public static final int showHome=0x7f060005;
         public static final int showTitle=0x7f060007;
@@ -1463,7 +1465,7 @@ containing a value of this type.
         public static final int underline=0x7f060012;
         public static final int useLogo=0x7f060004;
         public static final int useSSL=0x7f060049;
-        public static final int users=0x7f060077;
+        public static final int users=0x7f060079;
         public static final int webViewContent=0x7f060054;
         public static final int webViewWiki=0x7f06005a;
         public static final int wrap_content=0x7f060000;
