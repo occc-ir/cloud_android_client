@@ -42,6 +42,7 @@ import ir.occc.android.model.Settings;
 import ir.occc.android.model.Status;
 import ir.occc.android.irc.receiver.ReconnectReceiver;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -98,7 +99,8 @@ public class IRCService extends Service
     /**
      * Create new service
      */
-    public IRCService()
+    @SuppressLint("UseSparseArrays")
+	public IRCService()
     {
         super();
 
@@ -153,7 +155,8 @@ public class IRCService extends Service
      * On start (will be called on pre-2.0 platform. On 2.0 or later onStartCommand()
      * will be called)
      */
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void onStart(Intent intent, int startId)
     {
         super.onStart(intent, startId);
@@ -187,11 +190,12 @@ public class IRCService extends Service
      *
      * @param intent
      */
-    private void handleCommand(Intent intent)
+    @SuppressWarnings("deprecation")
+	private void handleCommand(Intent intent)
     {
         if (ACTION_FOREGROUND.equals(intent.getAction())) {
             if (foreground) {
-                return; // XXX: We are already in foreground...
+                return; // We are already in foreground...
             }
             foreground = true;
 
@@ -223,7 +227,8 @@ public class IRCService extends Service
      * @param sound True if the device should make sound, false otherwise
      * @param light True if the device should flash a LED light, false otherwise
      */
-    private void updateNotification(String text, String contentText, boolean vibrate, boolean sound, boolean light)
+    @SuppressWarnings("deprecation")
+	private void updateNotification(String text, String contentText, boolean vibrate, boolean sound, boolean light)
     {
         if (foreground) {
             notification = new Notification(R.drawable.ic_launcher, text, System.currentTimeMillis());
@@ -577,7 +582,7 @@ public class IRCService extends Service
                 }
 
                 synchronized(alarmIntentsLock) {
-                    // XXX: alarmIntents can be null
+                    // alarmIntents can be null
                     PendingIntent pendingRIntent = alarmIntents.get(serverId);
                     if (pendingRIntent != null) {
                         AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);

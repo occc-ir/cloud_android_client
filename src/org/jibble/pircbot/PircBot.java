@@ -159,7 +159,7 @@ public abstract class PircBot implements ReplyConstants {
 
         // Connect to the server.
 
-        // XXX: PircBot Patch for SSL
+        // PircBot Patch for SSL
         if (_useSSL) {
             try {
                 SSLContext context = SSLContext.getInstance("TLS");
@@ -171,7 +171,7 @@ public abstract class PircBot implements ReplyConstants {
             }
             catch(Exception e)
             {
-                // XXX: It's not really an IOException :)
+                // It's not really an IOException :)
                 throw new IOException("Cannot open SSL socket");
             }
         } else {
@@ -234,7 +234,7 @@ public abstract class PircBot implements ReplyConstants {
 
         _inputThread = new InputThread(this, _socket, breader, bwriter);
 
-        // XXX: PircBot Patch - Set nick before loop. otherwise we overwrite it in the loop again and again
+        // PircBot Patch - Set nick before loop. otherwise we overwrite it in the loop again and again
         //                      But maybe we got a new nickname from the server (bouncers!)
         this.setNick(nick);
 
@@ -242,7 +242,7 @@ public abstract class PircBot implements ReplyConstants {
         String line = null;
         line = breader.readLine();
 
-        // XXX: PircBot patch - We are not connected to server if nothing received
+        // PircBot patch - We are not connected to server if nothing received
         if (line == null) {
             throw new IOException("Could not connect to server");
         }
@@ -399,7 +399,7 @@ public abstract class PircBot implements ReplyConstants {
      *
      * @param reason The reason for quitting the server.
      */
-    // XXX PircBot patch -- we need to override this method in Yaaic
+    // PircBot patch -- we need to override this method in Yaaic
     public void quitServer(String reason) {
         this.sendRawLine("QUIT :" + reason);
     }
@@ -958,13 +958,13 @@ public abstract class PircBot implements ReplyConstants {
                         sourceNick = senderInfo;
                         target = token;
 
-                        // XXX: PircBot Patch - Sometimes there are senderinfos with an ident but no host
+                        // PircBot Patch - Sometimes there are senderinfos with an ident but no host
                         if (sourceNick.contains("!") && !sourceNick.contains("@")) {
                             String[] chunks = sourceNick.split("!");
                             sourceNick = chunks[0]; // Use the part before the exclamation mark
                         }
 
-                        // XXX: PircBot Patch - (Needed for BIP IRC Proxy)
+                        // PircBot Patch - (Needed for BIP IRC Proxy)
                         //      If this is a NICK command, use next token as target
                         if (command.equalsIgnoreCase("nick")) {
                             target = tokenizer.nextToken();
@@ -1034,7 +1034,7 @@ public abstract class PircBot implements ReplyConstants {
         }
         else if (command.equals("PRIVMSG")) {
             // This is a private message to us.
-            // XXX PircBot patch to pass target info to privmsg callback
+            // PircBot patch to pass target info to privmsg callback
             this.onPrivateMessage(sourceNick, sourceLogin, sourceHostname, target, line.substring(line.indexOf(" :") + 2));
         }
         else if (command.equals("JOIN")) {
@@ -1068,7 +1068,7 @@ public abstract class PircBot implements ReplyConstants {
         else if (command.equals("QUIT")) {
             // Someone has quit from the IRC server.
 
-            // XXX: Pircbot Patch - Call onQuit before removing the user. This way we
+            // Pircbot Patch - Call onQuit before removing the user. This way we
             //                        are able to know which channels the user was on.
             this.onQuit(sourceNick, sourceLogin, sourceHostname, line.substring(line.indexOf(" :") + 2));
 
@@ -1243,7 +1243,7 @@ public abstract class PircBot implements ReplyConstants {
                     // Some wibbly status I've never seen before...
                     prefix = ".";
                 }
-                // XXX: PircBot Patch - Recognize % as prefix - Often used as "half-operator" prefix
+                // PircBot Patch - Recognize % as prefix - Often used as "half-operator" prefix
                 else if (nick.startsWith("%")) {
                     prefix = "%";
                 }
@@ -1349,7 +1349,7 @@ public abstract class PircBot implements ReplyConstants {
      * @param hostname The hostname of the person who sent the private message.
      * @param message The actual message.
      */
-    // XXX PircBot patch to pass target info to privmsg callback
+    // PircBot patch to pass target info to privmsg callback
     protected void onPrivateMessage(String sender, String login, String hostname, String target, String message) {}
 
 

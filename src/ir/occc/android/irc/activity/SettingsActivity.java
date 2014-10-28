@@ -38,7 +38,8 @@ public class SettingsActivity extends SherlockPreferenceActivity
     /**
      * On create
      */
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
