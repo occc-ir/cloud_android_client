@@ -2,8 +2,10 @@ package ir.occc.android.wiki;
 
 import info.bliki.api.Connector;
 import info.bliki.api.Page;
+import info.bliki.api.RecentChanges;
 import info.bliki.api.SearchResult;
 import info.bliki.api.User;
+import info.bliki.api.XMLRecentChangesParser;
 import info.bliki.api.XMLSearchParser;
 import ir.occc.android.R;
 import ir.occc.android.common.Common;
@@ -81,6 +83,7 @@ public class WikiService extends IntentService {
 		case CMD_WIKI_EXACT_PAGE:
 			//Query.create().list("").apfrom("Java").aplimit(20).format("json");
 			//openSearch();
+			listOfPages = recentChanges();
 			break;
 		default:
 			break;
@@ -186,7 +189,7 @@ public class WikiService extends IntentService {
 	
 	public List<Page> recentChanges() {
 		
-        String[] valuePairs = { "list", "recentchanges", "rclimit", "rcnamespace" };
+        String[] valuePairs = { "list", "recentchanges", "rclimit=50", "rcnamespace=0" };
         String[] valuePairsContinue = new String[5];
         String srOffset = "0";
         for (int i = 0; i < valuePairs.length; i++) {
@@ -194,19 +197,19 @@ public class WikiService extends IntentService {
         }
         valuePairsContinue[4] = ""; // index of 4
         Connector connector = new Connector();
-        List<SearchResult> resultSearchResults = new ArrayList<SearchResult>(1024);
+        List<RecentChanges> resultSearchResults = new ArrayList<RecentChanges>(1024);
         ArrayList<Page> allPageResult = new ArrayList<Page>();
-        XMLSearchParser parser;
+        XMLRecentChangesParser parser;
         try {
             // get all search results
             String responseBody = connector.queryXML(user, valuePairs);
             while (responseBody != null) {
-                parser = new XMLSearchParser(responseBody);
+                parser = new XMLRecentChangesParser(responseBody);
                 parser.parse();
                 srOffset = parser.getSrOffset();
                 //System.out.println(">>>>> " + srOffset);
-                List<SearchResult> listOfSearchResults = parser.getSearchResultList();
-                resultSearchResults.addAll(listOfSearchResults);
+                List<RecentChanges> listOfRecentChanges = parser.getRecentChangesList();
+                resultSearchResults.addAll(listOfRecentChanges);
                 /*for (SearchResult searchResult : listOfSearchResults) {
                     // print search result information
                     System.out.println("sr: " + searchResult.toString());
@@ -223,10 +226,10 @@ public class WikiService extends IntentService {
             // get the content of the category members with namespace==0
             int count = 0;
             List<String> strList = new ArrayList<String>();
-            for (SearchResult searchResult : resultSearchResults) {
-                if (searchResult.getNs().equals("0")) {
+            for (RecentChanges recentChanges : resultSearchResults) {
+                if (recentChanges.getNs().equals("0")) {
                     // namespace "0" - all titles without a namespace prefix
-                    strList.add(searchResult.getTitle());
+                    strList.add(recentChanges.getTitle());
                     if (++count == 10) {
                         List<Page> listOfPages = user.queryContent(strList);
                         for (Page page : listOfPages) {
