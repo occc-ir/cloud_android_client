@@ -2,19 +2,24 @@ package ir.occc.android.wiki;
 
 import info.bliki.wiki.model.WikiModel;
 import ir.occc.android.R;
+import ir.occc.android.common.Common;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 public class WikiContentFragment extends Fragment {
 
 	private String title = "";
 	private String content = "";
+	private boolean isRtlRequired = false;
 
 	private View rootView = null;
 
@@ -34,6 +39,8 @@ public class WikiContentFragment extends Fragment {
 		/** Getting data of the key current_page from the bundle */
 		title = data.getString("title");
 		content = data.getString("content");
+		
+		isRtlRequired = Common.isRtlRequired(content);
 	}
 
 	@Override
@@ -44,6 +51,15 @@ public class WikiContentFragment extends Fragment {
 
 		TextView tvTitle = (TextView)rootView.findViewById(R.id.tvTitle);
 		tvTitle.setText(title);
+		
+		// check RTL and set it on title
+		LinearLayout.LayoutParams params = (LayoutParams) tvTitle.getLayoutParams();
+		if (Common.isRtlRequired(title)) {
+			params.gravity = Gravity.RIGHT;
+		} else {
+			tvTitle.setGravity(Gravity.LEFT);
+		}
+		tvTitle.setLayoutParams(params);
 
 		refresh();
 
@@ -72,11 +88,16 @@ public class WikiContentFragment extends Fragment {
 		content = wikiModel.render(content);
 		
 		StringBuilder sbMessage = new StringBuilder();
-		sbMessage.append("<html><body dir='rtl'><div style='text-align:center'>");
+		if (isRtlRequired) {
+			sbMessage.append("<html><body dir='rtl'><div >");
+		}
+		else {
+			sbMessage.append("<html><body dir='ltr'><div >");
+		}
 		sbMessage.append(content);
 		sbMessage.append("</div></body></html>");
 
-		wvContent.loadDataWithBaseURL("about:blank", content, "text/html", "utf-8", null);
+		wvContent.loadDataWithBaseURL("about:blank", sbMessage.toString(), "text/html", "utf-8", null);
 		//wvContent.loadData("<html><head>><meta HTTP-EQUIV='Content-Type' content='text/html; charset=utf-8' /></head><body dir='rtl'>" + description +"</body></html>", "text/html", "utf-8");
 	}
 }
