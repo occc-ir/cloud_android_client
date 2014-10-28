@@ -79,10 +79,10 @@ public class RssService extends IntentService {
 			
 			if (httpCode / 100 != 2)
 			{
-				Log.d("oCCc", "Something bad happend");
+				//Log.d("oCCc", "Something bad happend");
 			}
 			else {
-				Log.d("oCCc", "get Input stream!!!");
+				//Log.d("oCCc", "get Input stream!!!");
 				is = urlCon.getInputStream();
 			}
 			
