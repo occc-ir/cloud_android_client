@@ -86,7 +86,7 @@ public class DccManager {
         }
         else if (type.equals("ACCEPT")) {
             int port = Integer.parseInt(tokenizer.nextToken());
-            // XXX: progress is not used?
+            // progress is not used?
             //long progress = Long.parseLong(tokenizer.nextToken());
             
             DccFileTransfer transfer = null;
