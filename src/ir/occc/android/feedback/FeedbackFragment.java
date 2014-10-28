@@ -59,13 +59,11 @@ OnItemSelectedListener, OnClickListener {
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position,
 			long id) {
-		// TODO Auto-generated method stub
 		feedbackType = parent.getItemAtPosition(position).toString();
 	}
 
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
-		// TODO Auto-generated method stub
 		
 	}
 
