@@ -16,6 +16,7 @@ import ir.occc.android.wiki.WikiFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -270,10 +271,17 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 
 		CheckBox chbIsTest = (CheckBox)findViewById(R.id.checkBoxTestValues);
 		chbIsTest.setVisibility(View.GONE);
+		
+		if (mSearchView == null) {
+			mSearchView = (SearchView)findViewById(R.id.searchViewMain);
+		}
+		mSearchView.setVisibility(View.GONE);
+		
 		ArrayList<String> rightNavDrawerItems = new ArrayList<String>();
 		
 		switch (position) {
 		case 0:
+			
 			rightNavDrawerItems.addAll(Arrays.asList(getResources().getStringArray(R.array.rss_feed_items)));
 			navRightAdapter = new RightNavDrawerListAdapter(getApplicationContext(), rightNavDrawerItems); 
 			mDrawerListRight.setAdapter(navRightAdapter);
@@ -309,6 +317,7 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 			//            fragment = new FindPeopleFragment();
 			
 			chbIsTest.setVisibility(View.VISIBLE);
+			mSearchView.setVisibility(View.VISIBLE);
 			break;
 		case 2:
 			mDrawerListRight.setAdapter(null);
@@ -493,7 +502,7 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 			// display view for selected nav drawer item
 			if (fragment instanceof NewsFragment || fragment instanceof NewsContentFragment) {
 
-				TextView tv = (TextView)view.findViewById(R.id.title);
+				TextView tv = (TextView)view.findViewById(R.id.resultTitle);
 				rssLink = tv.getTag().toString();
 				
 				/*RightNavDrawerListAdapter adapter = (RightNavDrawerListAdapter)parent.getAdapter();
@@ -512,13 +521,30 @@ public class MainActivity extends FragmentActivity implements OnQueryTextListene
 				mDrawerLayout.closeDrawer(mDrawerRight);
 			}
 			else if (fragment instanceof WikiFragment || fragment instanceof WikiContentFragment) {
-
-				TextView tv = (TextView)view.findViewById(R.id.title);
+				
+				fragment.getFragmentManager().popBackStack();
+				
+				TextView tv = (TextView)view.findViewById(R.id.resultTitle);
 				String title = tv.getTag().toString();
 				
 				if (fragment instanceof WikiFragment) {
 					WikiFragment wikiFragment = (WikiFragment)fragment;
-					wikiFragment.refresh(QueryType.WikiTitle, title);
+					
+					List<String> wikiLinks = Arrays.asList(getResources().getStringArray(R.array.wiki_link_items));
+					for (int i = 0; i < wikiLinks.size(); i++) {
+						int idx = wikiLinks.get(i).indexOf(',');
+						wikiLinks.set(i, wikiLinks.get(i).substring(idx + 1));
+					}
+					/*String tagTitle = wikiLinks.get(4);
+					int idx = tagTitle.indexOf(',');
+					tagTitle = tagTitle.substring(idx + 1);
+					if (tagTitle.equals("RecentChanges")) {*/
+					if (wikiLinks.indexOf(title) == 2 /*Title.equals("RecentChanges")*/) {
+						wikiFragment.refresh(QueryType.WikiSpecialPage, title);
+					}
+					else {
+						wikiFragment.refresh(QueryType.WikiTitle, title);
+					}
 				}
 				
 				mDrawerLayout.closeDrawer(mDrawerRight);
