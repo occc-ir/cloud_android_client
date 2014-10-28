@@ -339,7 +339,8 @@ public class ServersActivity extends SherlockActivity implements ServiceConnecti
     /**
      * On server status update
      */
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void onStatusUpdate()
     {
         adapter.loadServers();
