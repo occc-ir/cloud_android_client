@@ -4,7 +4,6 @@ import ir.occc.android.R;
 import ir.occc.android.common.Common;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 
 import android.app.Activity;
 import android.content.Context;
@@ -44,15 +43,15 @@ public class RightNavDrawerListAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.list_item_navigator_search, null);
 		}
 		
-		TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
+		TextView txtTitle = (TextView) convertView.findViewById(R.id.resultTitle);
 
 		String completeLink = rightNavDrawerItems.get(position);
 		int idx = completeLink.indexOf(',');
 		
 		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)txtTitle.getLayoutParams();
 		
-		Matcher match = Common.RtlPersianPattern.matcher(completeLink.substring(0, 1));
-		if (match.find()) {
+		// cehck if it is Persian or not
+		if (Common.isRtlRequired(completeLink.substring(0, 1))) {
 			//params.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 		} else {
