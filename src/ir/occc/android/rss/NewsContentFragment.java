@@ -1,8 +1,10 @@
 package ir.occc.android.rss;
 
 import ir.occc.android.R;
+import ir.occc.android.common.Common;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ public class NewsContentFragment extends Fragment {
 	private String title = "";
 	private String pubDate = "";
 	private String content = "";
+	private boolean isRtlRequired = false;
 
 	private View rootView = null;
 	private TextView tvPubDate = null;
@@ -36,6 +39,11 @@ public class NewsContentFragment extends Fragment {
 		title = data.getString("title");
 		pubDate = data.getString("pubDate");
 		content = data.getString("content");
+		
+		String rawContent = Html.fromHtml(content).toString();		
+		while (rawContent.startsWith(" ") || rawContent.substring(0, 1).toCharArray()[0] == 160)
+			rawContent = rawContent.substring(1);
+		isRtlRequired = Common.isRtlRequired(rawContent);
 	}
 
 	@Override
@@ -73,9 +81,17 @@ public class NewsContentFragment extends Fragment {
 		wvContent.getSettings().setDefaultTextEncodingName("utf-8");
 		//wvContent.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
 
-		content = "<html><body dir='rtl'><div style='text-align:justify'>" + content +"</div></body></html>";
+		StringBuilder sbMessage = new StringBuilder();
+		if (isRtlRequired) {
+			sbMessage.append("<html><body dir='rtl'><div style='text-align:justify'>");
+		}
+		else {
+			sbMessage.append("<html><body dir='ltr'><div style='text-align:justify'>");
+		}
+		sbMessage.append(content);
+		sbMessage.append("</div></body></html>");
 
-		wvContent.loadDataWithBaseURL("about:blank", content, "text/html", "utf-8", null);
+		wvContent.loadDataWithBaseURL("about:blank", sbMessage.toString(), "text/html", "utf-8", null);
 		//wvContent.loadData("<html><head>><meta HTTP-EQUIV='Content-Type' content='text/html; charset=utf-8' /></head><body dir='rtl'>" + description +"</body></html>", "text/html", "utf-8");
 	}
 }
