@@ -68,7 +68,7 @@ public class MessageListAdapter extends BaseAdapter
             messages.add(mHistory.get(i).renderTextView(context));
         }
 
-        // XXX: We don't want to clear the buffer, we want to add only
+        // We don't want to clear the buffer, we want to add only
         //      buffered messages that are not already added (history)
         conversation.clearBuffer();
 
@@ -165,7 +165,7 @@ public class MessageListAdapter extends BaseAdapter
     }
 
     /**
-     * XXX This is almost certainly covering up a bug elsewhere -- find it!
+     * This is almost certainly covering up a bug elsewhere -- find it!
      */
     @Override
     public void unregisterDataSetObserver(DataSetObserver observer) {
