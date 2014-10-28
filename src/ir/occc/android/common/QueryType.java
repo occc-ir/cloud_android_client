@@ -5,5 +5,5 @@ package ir.occc.android.common;
  * Query types of wiki services. It's used for wiki's service.
  */
 public enum QueryType {
-	WikiTitle, WikiContent, NewsTitle, NewsContent;
+	WikiTitle, WikiContent, WikiSpecialPage, NewsTitle, NewsContent;
 }
